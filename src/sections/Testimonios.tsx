@@ -39,7 +39,7 @@ const Testimonios = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl md:text-4xl font-serif text-gold mb-10"
+            className="text-3xl md:text-4xl font-serif text-slate-900 dark:text-gold mb-10"
           >
             La medicina más poderosa es la experiencia compartida.
           </motion.h2>

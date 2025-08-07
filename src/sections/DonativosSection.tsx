@@ -28,3 +28,5 @@ const DonativosSection = () => {
     </section>
   )
 }
+
+export default DonativosSection

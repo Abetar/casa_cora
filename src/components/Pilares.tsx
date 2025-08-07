@@ -16,7 +16,6 @@ const Donativos = () => {
           transition={{ duration: 0.8 }}
           className="text-3xl md:text-4xl font-serif text-gold mb-8"
         >
-          Donativos
         </motion.h2>
 
       </div>

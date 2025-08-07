@@ -1,32 +1,77 @@
 'use client'
 
-import { HeartHandshake } from 'lucide-react'
+import { motion } from 'framer-motion'
 
-const DonativosSection = () => {
+const pilares = [
+  {
+    emoji: '🌿',
+    titulo: 'Alquimia',
+    texto: 'Transformamos el dolor en aprendizaje. Mezclamos ciencia, arte y medicina natural.',
+  },
+  {
+    emoji: '✍',
+    titulo: 'Poesía',
+    texto: 'La palabra como medicina. Escuchamos con presencia y hablamos con intención.',
+  },
+  {
+    emoji: '🔥',
+    titulo: 'Ritual',
+    texto: 'Creamos espacios sagrados que nos permiten reconectar cuerpo, emoción y memoria.',
+  },
+  {
+    emoji: '🤖',
+    titulo: 'Inteligencia Artificial',
+    texto: 'Usamos tecnología simbólica para amplificar el acceso, la reflexión y el cuidado.',
+  },
+  {
+    emoji: '🫂',
+    titulo: 'Comunidad',
+    texto: 'Nadie sana sol@. Creamos red viva para que el proceso sea colectivo y accesible.',
+  },
+]
+
+const Pilares = () => {
   return (
-    <section className="bg-white/5 dark:bg-white/10 border border-white/10 dark:border-white/20 rounded-lg p-6 text-left text-slate-800 dark:text-white/90" id="donativos">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex justify-center">
-          <HeartHandshake className="text-[#d4af37] w-10 h-10 animate-pulse" />
-        </div>
-        <h2 className="text-3xl font-semibold text-[#d46a92]">
-          Un gesto que sostiene
-        </h2>
-        <p className="text-lg leading-relaxed text-[#0f0e17]">
-          Si este espacio ha tocado tu alma y deseas apoyar nuestra labor terapéutica y comunitaria, puedes hacer tu donativo a la siguiente cuenta:
-        </p>
-        <div className="bg-white/70 p-4 rounded-lg border border-[#ffd1dc]/70 text-sm md:text-base text-[#0f0e17]">
-          <p><span className="font-bold text-[#d46a92]">Banco:</span> Banco del Bienestar</p>
-          <p><span className="font-bold text-[#d46a92]">Titular:</span> Fundación Casa Cora A.C.</p>
-          <p><span className="font-bold text-[#d46a92]">Cuenta:</span> 1234567890</p>
-          <p><span className="font-bold text-[#d46a92]">CLABE:</span> 123456789012345678</p>
-        </div>
-        <p className="text-sm italic text-gray-600">
-          *Agradecemos profundamente tu energía compartida.*
-        </p>
+    <section
+      id="pilares"
+      className="py-24 px-6 max-w-7xl mx-auto text-center bg-white dark:bg-[#0f0e17] transition-colors duration-500"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="text-4xl font-serif text-slate-900 dark:text-gold mb-16"
+      >
+        Pilares de Casa Cora
+      </motion.h2>
+
+      <div className="flex flex-wrap justify-center gap-6">
+        {pilares.map((pilar, i) => (
+          <motion.div
+            key={i}
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeOut',
+              delay: i * 0.2,
+            }}
+            className="origin-bottom bg-white/60 dark:bg-white/5 border border-gold/30 backdrop-blur-sm w-44 h-64 flex flex-col justify-between p-4 rounded-2xl shadow-lg hover:scale-105 transition"
+          >
+            <div className="text-4xl">{pilar.emoji}</div>
+            <div>
+              <h3 className="text-lg font-serif text-slate-900 dark:text-gold mb-1">
+                {pilar.titulo}
+              </h3>
+              <p className="text-slate-700 dark:text-white/80 text-sm">{pilar.texto}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   )
 }
 
-export default DonativosSection
+export default Pilares

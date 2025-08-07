@@ -35,7 +35,6 @@ const Pilares = () => {
     <section
       id="pilares"
       className="py-24 px-6 max-w-7xl mx-auto text-center"
-      style={{ backgroundColor: '#fff1f5' }} // fondo rosa claro
     >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}

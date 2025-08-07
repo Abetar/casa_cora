@@ -13,7 +13,7 @@ const Hero = () => {
         id="inicio"
         className="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden"
       >
-        {/* Video de fondo */}
+        
         <video
           className="absolute inset-0 w-full h-full object-cover -z-10 brightness-75"
           autoPlay

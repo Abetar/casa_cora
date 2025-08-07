@@ -1,37 +1,72 @@
-'use client'
+"use client";
 
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
-import { useState } from 'react'
+import { useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+
+const links = [
+  { label: "Inicio", href: "#inicio" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Testimonios", href: "#testimonios" },
+  { label: "Comunidad", href: "#comunidad" },
+];
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
-
-  const { scrollY } = useScroll()
-
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    setScrolled(latest > 50)
-  })
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.nav
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center transition-all duration-300 ${
-        scrolled
-          ? 'bg-fondo/80 backdrop-blur-md shadow-md'
-          : 'bg-transparent'
-      }`}
-    >
-      <h1 className="text-lg font-bold tracking-wide text-white">Casa Cora</h1>
-      <div className="space-x-6 text-sm font-light text-white">
-        <a href="#inicio" className="hover:text-gold transition hover:bg-amber-900 hover:rounded-lg hover: p-2">Inicio</a>
-        <a href="#servicios" className="hover:text-gold transition hover:bg-amber-900  hover:rounded-lg hover: p-2 ">Servicios</a>
-        <a href="#testimonios" className="hover:text-gold transition hover:bg-amber-900  hover:rounded-lg hover: p-2 ">Testimonios</a>
-        <a href="#comunidad" className="hover:text-gold transition hover:bg-amber-900  hover:rounded-lg hover: p-2 ">Comunidad</a>
-      </div>
-    </motion.nav>
-  )
-}
+    <nav className="fixed top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md px-6 py-4 text-white">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
+        <Link href="#inicio" className="text-xl font-serif text-gold">
+          Casa Cora
+        </Link>
 
-export default Navbar
+        {/* Desktop links */}
+        <div className="hidden md:flex gap-8">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-white/90 hover:text-gold transition"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Mobile menu toggle */}
+        <div className="md:hidden">
+          <button onClick={() => setIsOpen(!isOpen)} aria-label="Abrir menú">
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="md:hidden bg-[#0f0e17]/95 backdrop-blur-sm rounded-lg mt-2 px-6 py-4 flex flex-col gap-4 text-center"
+          >
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-white hover:text-gold transition"
+                onClick={() => setIsOpen(false)} // cerrar menú al hacer clic
+              >
+                {link.label}
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
+
+export default Navbar;

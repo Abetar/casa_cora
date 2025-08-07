@@ -30,10 +30,12 @@ const pilares = [
   },
 ]
 
-
 const Pilares = () => {
   return (
-    <section id="pilares" className="py-24 px-6 max-w-7xl mx-auto text-center">
+    <section
+      id="pilares"
+      className="py-24 px-6 max-w-7xl mx-auto text-center bg-white dark:bg-[#0f0e17]"
+    >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -56,12 +58,14 @@ const Pilares = () => {
               ease: 'easeOut',
               delay: i * 0.2,
             }}
-            className="origin-bottom bg-white/5 border border-gold/30 backdrop-blur-sm w-44 h-64 flex flex-col justify-between p-4 rounded-2xl shadow-lg hover:scale-105 transition"
+            className="origin-bottom bg-white/5 dark:bg-white/10 border border-gold/30 backdrop-blur-sm w-44 h-64 flex flex-col justify-between p-4 rounded-2xl shadow-lg hover:scale-105 transition"
           >
             <div className="text-4xl">{pilar.emoji}</div>
             <div>
               <h3 className="text-lg text-gold font-serif mb-1">{pilar.titulo}</h3>
-              <p className="text-white/80 text-sm">{pilar.texto}</p>
+              <p className="text-slate-800 dark:text-white/80 text-sm">
+                {pilar.texto}
+              </p>
             </div>
           </motion.div>
         ))}

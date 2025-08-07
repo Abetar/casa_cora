@@ -34,14 +34,15 @@ const Pilares = () => {
   return (
     <section
       id="pilares"
-      className="py-24 px-6 max-w-7xl mx-auto text-center bg-white dark:bg-[#0f0e17] transition-colors duration-500"
+      className="py-24 px-6 max-w-7xl mx-auto text-center"
+      style={{ backgroundColor: '#fff1f5' }} // fondo rosa claro
     >
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="text-4xl font-serif text-slate-900 dark:text-gold mb-16"
+        className="text-4xl font-serif text-[#d4af37] mb-16"
       >
         Pilares de Casa Cora
       </motion.h2>
@@ -58,14 +59,14 @@ const Pilares = () => {
               ease: 'easeOut',
               delay: i * 0.2,
             }}
-            className="origin-bottom bg-white/60 dark:bg-white/5 border border-gold/30 backdrop-blur-sm w-44 h-64 flex flex-col justify-between p-4 rounded-2xl shadow-lg hover:scale-105 transition"
+            className="origin-bottom bg-white border border-[#d4af37]/50 w-44 h-64 flex flex-col justify-between p-4 rounded-2xl shadow-lg hover:scale-105 transition"
           >
             <div className="text-4xl">{pilar.emoji}</div>
             <div>
-              <h3 className="text-lg font-serif text-slate-900 dark:text-gold mb-1">
+              <h3 className="text-lg text-[#d4af37] font-serif mb-1">
                 {pilar.titulo}
               </h3>
-              <p className="text-slate-700 dark:text-white/80 text-sm">{pilar.texto}</p>
+              <p className="text-[#2e2e2e] text-sm">{pilar.texto}</p>
             </div>
           </motion.div>
         ))}

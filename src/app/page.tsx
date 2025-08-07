@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Servicios from "@/sections/Servicios";
 import Testimonios from "@/sections/Testimonios";
 import Comunidad from "@/sections/Comunidad";
+import DonativosSection from "@/sections/DonativosSection";
 
 const Hero = () => {
   return (
@@ -56,6 +57,7 @@ const Hero = () => {
       <Servicios />
       <Testimonios />
       <Comunidad />
+      <DonativosSection />
     </>
   );
 };

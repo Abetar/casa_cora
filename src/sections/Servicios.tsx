@@ -64,15 +64,17 @@ const CardServicio = ({ servicio }: { servicio: (typeof servicios)[0] }) => {
         scale: 1.05,
         boxShadow: "0 0 36px 10px rgba(212, 175, 55, 0.6)",
       }}
-      className="bg-white/5 border border-white/10 w-44 h-64 flex flex-col items-center justify-between px-4 py-6 rounded-2xl backdrop-blur-sm text-center transition-transform"
+      className="bg-white/5 dark:bg-white/10 border border-white/10 dark:border-white/20 w-44 h-64 flex flex-col items-center justify-between px-4 py-6 rounded-2xl backdrop-blur-sm text-center transition-transform"
     >
       <div>
         <h3 className="text-base font-serif text-gold mb-2 leading-snug">
           {servicio.nombre}
         </h3>
-        <p className="text-white/90 text-sm font-medium">{servicio.costo}</p>
+        <p className="text-slate-800 dark:text-white/90 text-sm font-medium">
+          {servicio.costo}
+        </p>
       </div>
-      <p className="text-white/60 text-xs italic mt-auto">
+      <p className="text-slate-600 dark:text-white/60 text-xs italic mt-auto">
         {servicio.modalidad}
       </p>
     </motion.div>
@@ -81,7 +83,10 @@ const CardServicio = ({ servicio }: { servicio: (typeof servicios)[0] }) => {
 
 const Servicios = () => {
   return (
-    <section id="servicios" className="py-24 px-6 text-center bg-[#ffd1dc]/5">
+    <section
+      id="servicios"
+      className="py-24 px-6 text-center bg-[#ffd1dc]/5 dark:bg-[#0f0e17]"
+    >
       <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}

@@ -4,7 +4,7 @@ import { HeartHandshake } from 'lucide-react'
 
 const DonativosSection = () => {
   return (
-    <section className="bg-[#ffd1dc]/10 py-16 px-6 text-center text-[#0f0e17] font-serif" id="donativos">
+    <section className="bg-white/5 dark:bg-white/10 border border-white/10 dark:border-white/20 rounded-lg p-6 text-left text-slate-800 dark:text-white/90" id="donativos">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex justify-center">
           <HeartHandshake className="text-[#d4af37] w-10 h-10 animate-pulse" />

@@ -25,7 +25,6 @@ const Hero = () => {
           Tu navegador no soporta video HTML5.
         </video>
 
-        {/* Texto */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

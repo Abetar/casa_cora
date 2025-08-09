@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { FaWhatsapp } from 'react-icons/fa'
 
 const WhatsAppButton = () => {
-  const whatsappNumber = '5215555555555' // Reemplaza con el número real
+  const whatsappNumber = '528132497377'
 
   return (
     <motion.a

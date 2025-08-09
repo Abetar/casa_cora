@@ -67,7 +67,7 @@ const Testimonios = () => {
             className="mt-10"
           >
             <a
-              href="https://wa.me/5215555555555"
+              href="https://wa.me/528132497377"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block font-bold bg-[#d4af37] text-black px-6 py-3 rounded-full text-sm hover:brightness-110 transition"

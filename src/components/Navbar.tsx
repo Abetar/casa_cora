@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -10,16 +11,28 @@ const links = [
   { label: "Servicios", href: "#servicios" },
   { label: "Testimonios", href: "#testimonios" },
   { label: "Comunidad", href: "#comunidad" },
+  { label: "Donativos", href: "#donativos" },
 ];
 
-const Navbar = () => {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md px-6 py-4 text-white">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="#inicio" className="text-xl font-serif text-gold">
-          Casa Cora
+        {/* Logo + Marca */}
+        <Link href="#inicio" className="flex items-center gap-3">
+          <Image
+            src="/logo.png"
+            alt="Casa Cora"
+            width={150}
+            height={150}
+            priority
+            className="rounded-md object-contain"
+          />
+          {/* <span className="hidden sm:inline font-serif text-xl text-gold tracking-wide">
+            Casa Cora
+          </span> */}
         </Link>
 
         {/* Desktop links */}
@@ -67,6 +80,4 @@ const Navbar = () => {
       </AnimatePresence>
     </nav>
   );
-};
-
-export default Navbar;
+}

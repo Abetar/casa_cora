@@ -98,7 +98,6 @@ export async function POST(req) {
         })
       } catch (e) {
         console.error('Error enviando notificación (Resend):', e)
-        // No rompemos la respuesta al cliente si falla el email
       }
     } else {
       // Si falta la key en build/preview, seguimos sin bloquear

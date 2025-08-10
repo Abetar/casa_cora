@@ -46,7 +46,7 @@ const Comunidad = () => {
   return (
     <section
       id="comunidad"
-      className="pt-24 pb-40 px-6 text-center bg-[#0f0e17] text-white"
+      className="pt-24 pb-30 px-6 text-center bg-[#0f0e17] text-white"
     >
       <div className="max-w-xl mx-auto">
         <motion.h2

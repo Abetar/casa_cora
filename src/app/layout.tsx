@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://casacora.org"),
@@ -110,6 +111,7 @@ export default function RootLayout({
             logo: "https://casacora.org/apple-touch-icon.png",
           })}
         </Script>
+        <WhatsAppButton />
       <Footer />
       </body>
     </html>

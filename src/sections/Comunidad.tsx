@@ -6,7 +6,9 @@ import { motion } from "framer-motion";
 const Comunidad = () => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
-  const [estado, setEstado] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [estado, setEstado] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [mensaje, setMensaje] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +32,9 @@ const Comunidad = () => {
       }
 
       setEstado("success");
-      setMensaje("¡Gracias por confiar en Casa Cora! Pronto recibirás noticias nuestras.");
+      setMensaje(
+        "¡Gracias por confiar en Casa Cora! Pronto recibirás noticias nuestras."
+      );
       setNombre("");
       setEmail("");
     } catch {
@@ -75,6 +79,7 @@ const Comunidad = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="flex flex-col gap-4"
           >
+
             <input
               type="text"
               placeholder="Nombre completo"
@@ -96,15 +101,25 @@ const Comunidad = () => {
               type="submit"
               disabled={estado === "loading"}
               className={`mt-4 bg-white text-[#0f0e17] font-medium py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 mx-auto ${
-                estado === "loading" ? "opacity-70 cursor-not-allowed" : "hover:brightness-110 cursor-pointer"
+                estado === "loading"
+                  ? "opacity-70 cursor-not-allowed"
+                  : "hover:brightness-110 cursor-pointer"
               }`}
             >
-              <span>{estado === "loading" ? "Enviando..." : "Unirme a la comunidad"}</span>
-              <span role="img" aria-label="Correo">💌</span>
+              <span>
+                {estado === "loading" ? "Enviando..." : "Unirme a la comunidad"}
+              </span>
+              <span role="img" aria-label="Correo">
+                💌
+              </span>
             </button>
 
             {estado !== "idle" && (
-              <p className={`text-sm mt-2 ${estado === "error" ? "text-red-400" : "text-white/80"}`}>
+              <p
+                className={`text-sm mt-2 ${
+                  estado === "error" ? "text-red-400" : "text-white/80"
+                }`}
+              >
                 {mensaje}
               </p>
             )}

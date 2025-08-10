@@ -6,7 +6,8 @@ import Servicios from "@/sections/Servicios";
 import Testimonios from "@/sections/Testimonios";
 import Comunidad from "@/sections/Comunidad";
 import DonativosSection from "@/sections/DonativosSection";
-import SocialLinks from "@/components/SocialLinks";
+import SocialLinks from "@/components/SocialSelection";
+import SocialSection from "@/components/SocialSelection";
 
 const Hero = () => {
   return (
@@ -58,7 +59,14 @@ const Hero = () => {
       <Servicios />
       <Testimonios />
       <Comunidad />
-      <SocialLinks />
+       <SocialSection
+        variant="cards" // o "ribbon"
+        align="center"
+        links={{
+          instagram: 'https://www.instagram.com/casacoramty?igsh=cmliYmZoYzd5OGts',
+          whatsapp: 'https://wa.me/528132497377',
+        }}
+      />
       <DonativosSection />
     </>
   );

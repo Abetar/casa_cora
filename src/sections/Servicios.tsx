@@ -5,14 +5,14 @@ import { useEffect, useRef } from 'react'
 
 const servicios = [
   {
-    nombre: 'Psicoterapia individual',
+    nombre: 'Psicoterapia básica',
     modalidad: 'Online / Presencial',
-    costo: '$300 MXN',
+    costo: '$450 MXN',
   },
   {
     nombre: 'Consulta cannábica guiada',
     modalidad: 'Presencial',
-    costo: '$250 MXN',
+    costo: '$800 MXN',
   },
   {
     nombre: 'Círculo Masculino 420',

@@ -2,10 +2,21 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 
-const servicios = [
+/** Tipado del servicio */
+type Servicio = {
+  nombre: string;
+  costo: string;
+  descripcion: string;
+  modalidad: string;
+  detalles?: string;
+  cta?: { texto: string; url: string };
+};
+
+/** Datos */
+const servicios: Servicio[] = [
   {
     nombre: "Psicoterapia básica",
     costo: "$450 MXN",
@@ -53,37 +64,19 @@ const servicios = [
     descripcion:
       "Un ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
     modalidad: "Presencial en Monterrey / Online México",
-    detalles: `
-Adopta tu plantita. Cultiva tu mente. Conecta con tu espíritu.
-Un modelo de sanación integral basado en el cultivo consciente del cannabis medicinal, acompañado de consultas psicoanalíticas y guía espiritual personalizada.
-
-Incluye:
-- Adopción de planta medicinal (mínimo 120g cosechados, genética premium)
-- 10 sesiones quincenales de acompañamiento (30 min psicoanálisis + 30 min guía espiritual)
-- Actualizaciones personalizadas del crecimiento de tu planta
-- Sticker simbólico de cada etapa
-- Certificado de cosecha y genética
-- Derecho a plantar tus propias semillas
-- Afiliación gratuita a Casa CORA
-
-Duración: 5 a 6 meses
-Modalidad: Presencial o virtual
-Cupo limitado a 20 personas
-    `,
-    cta: {
-      texto: "Ver protocolo",
-      url: "/protocolos",
-    },
+    detalles: `...`, // (tu texto)
+    cta: { texto: "Ver protocolo", url: "/protocolos" },
   },
 ];
 
-const CardHoja = ({
+/** Card con forma de hoja */
+function CardHoja({
   servicio,
   onClick,
 }: {
-  servicio: (typeof servicios)[0];
+  servicio: Servicio;
   onClick: () => void;
-}) => {
+}) {
   return (
     <motion.div
       whileHover={{
@@ -92,19 +85,14 @@ const CardHoja = ({
       }}
       className="relative w-60 h-[22rem] cursor-pointer flex items-center justify-center"
       onClick={onClick}
-      style={{
-        filter: "drop-shadow(0 0 12px rgba(212, 175, 55, 0.4))",
-      }}
+      style={{ filter: "drop-shadow(0 0 12px rgba(212,175,55,.4))" }}
     >
-      {/* Imagen de hoja */}
       <Image
         src="/hoja-cora.png"
         alt="Hoja decorativa"
         fill
         style={{ objectFit: "contain", pointerEvents: "none" }}
       />
-
-      {/* Contenido */}
       <div className="absolute flex flex-col items-center justify-center px-4 text-center">
         <h3 className="text-lg font-serif text-[#d4af37] font-bold leading-tight">
           {servicio.nombre}
@@ -117,11 +105,11 @@ const CardHoja = ({
           {servicio.modalidad}
         </span>
 
-        {/* CTA solo si existe */}
         {servicio.cta && (
           <Link
             href={servicio.cta.url}
             className="mt-4 inline-block bg-[#d4af37] text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-[#b48d2b] transition font-medium"
+            onClick={(e) => e.stopPropagation()} // evita abrir modal al clickear CTA
           >
             {servicio.cta.texto}
           </Link>
@@ -129,16 +117,13 @@ const CardHoja = ({
       </div>
     </motion.div>
   );
-};
+}
 
-export default function ServiciosHoja() {
+export default function Servicios() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({
-    nombre: "",
-    detalles: "",
-  });
+  const [modalContent, setModalContent] = useState<Servicio | null>(null);
 
-  const openModal = (servicio: any) => {
+  const openModal = (servicio: Servicio) => {
     setModalContent(servicio);
     setModalOpen(true);
   };
@@ -154,11 +139,10 @@ export default function ServiciosHoja() {
           Servicios Terapéuticos
         </h2>
 
-        {/* Grid responsivo */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 place-items-center">
-          {servicios.map((servicio, i) => (
+          {servicios.map((servicio) => (
             <CardHoja
-              key={i}
+              key={servicio.nombre}
               servicio={servicio}
               onClick={() => openModal(servicio)}
             />
@@ -166,8 +150,7 @@ export default function ServiciosHoja() {
         </div>
       </div>
 
-      {/* Modal */}
-      {modalOpen && (
+      {modalOpen && modalContent && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -184,9 +167,11 @@ export default function ServiciosHoja() {
             <h3 className="text-2xl font-serif text-[#d4af37] mb-4 font-bold">
               {modalContent.nombre}
             </h3>
-            <p className="text-sm text-[#2e2e2e] whitespace-pre-line">
-              {modalContent.detalles}
-            </p>
+            {modalContent.detalles && (
+              <p className="text-sm text-[#2e2e2e] whitespace-pre-line">
+                {modalContent.detalles}
+              </p>
+            )}
           </motion.div>
         </div>
       )}

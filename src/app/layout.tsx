@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Script from "next/script";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+// ⬇️ nuevo wrapper cliente
+import AppNavbarShell from "@/components/AppNavbarShell";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://casacora.org"),
@@ -26,9 +27,7 @@ export const metadata: Metadata = {
   creator: "Casa Cora",
   publisher: "Casa Cora",
   category: "healthcare",
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -58,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@casacora", // si no tienes, bórralo
+    site: "@casacora",
     creator: "@casacora",
     title: "Casa Cora — Fundación viva de psicoterapia económica",
     description:
@@ -68,9 +67,9 @@ export const metadata: Metadata = {
   themeColor: "#0f0e17",
   icons: {
     icon: [
-      { url: '/favicon-v2.ico' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: "/favicon-v2.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     other: [
@@ -88,15 +87,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="font-sans bg-[#0f0e17] text-white">
-        <Navbar />
-        {children}
+        {/* Navbar condicional */}
+        <AppNavbarShell>
+          {children}
+        </AppNavbarShell>
 
-        {/* JSON-LD: Organización básica */}
-        <Script
-          id="org-jsonld"
-          type="application/ld+json"
-          strategy="afterInteractive"
-        >
+        {/* JSON-LD */}
+        <Script id="org-jsonld" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "NGO",
@@ -104,15 +101,13 @@ export default function RootLayout({
             url: "https://casacora.org/",
             description:
               "Fundación viva de psicoterapia económica, terapias alternativas y comunidad.",
-            sameAs: [
-              // agrega perfiles si los tienes
-              // 'https://www.instagram.com/...',
-            ],
+            sameAs: [],
             logo: "https://casacora.org/apple-touch-icon.png",
           })}
         </Script>
+
         <WhatsAppButton />
-      <Footer />
+        <Footer />
       </body>
     </html>
   );

@@ -27,12 +27,38 @@ const servicios: Servicio[] = [
       "Atención psicológica profesional en modalidad presencial o virtual, adaptada a tus necesidades.",
   },
   {
-    nombre: "Consulta cannábica guiada",
-    costo: "$800 MXN",
-    descripcion: "Asesoría personalizada sobre uso medicinal de cannabis.",
-    modalidad: "Presencial",
-    detalles:
-      "Consulta enfocada en el uso terapéutico del cannabis medicinal, con guía profesional en un entorno seguro.",
+    nombre: "Sistema Integral de Sanación – Casa Cora",
+    costo: "$800 MXN quincenales",
+    descripcion:
+      "Un ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
+    modalidad: "Presencial en Monterrey / Online México",
+    detalles: `
+      Modelo integral de 10 quincenas (5–6 meses) que combina la adopción de una planta medicinal con acompañamiento terapéutico quincenal: 30 min de psicoanálisis + 30 min de guía espiritual. Aportación: $800 MXN quincenales.
+
+        Incluye:
+
+        1 planta (mínimo 120 g cosechados, genética premium)
+
+        10 sesiones quincenales (presencial o virtual)
+
+        Actualizaciones personalizadas del crecimiento
+
+        Sticker simbólico por etapa
+
+        Certificado de cosecha y genética
+
+        Derecho a plantar tus propias semillas
+
+        Afiliación gratuita a Casa CORA
+
+        Modalidad: presencial en Monterrey o virtual en toda la república.
+        Cupo: 20 personas por ciclo.
+
+        Costos no incluidos (si se requieren): insumos de cultivo (sustratos, macetas, nutrientes) y análisis de laboratorio; se cotizan y pagan por separado.
+
+        Consulta el protocolo completo en “Ver protocolo”.
+    `, // (tu texto)
+    cta: { texto: "Ver protocolo", url: "/protocolos" },
   },
   {
     nombre: "Círculo Masculino 420",
@@ -57,15 +83,6 @@ const servicios: Servicio[] = [
     modalidad: "Complementaria",
     detalles:
       "Aplicación de parches o aceites como complemento terapéutico en consultas presenciales.",
-  },
-  {
-    nombre: "Sistema Integral de Sanación – Casa Cora",
-    costo: "$800 MXN quincenales",
-    descripcion:
-      "Un ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
-    modalidad: "Presencial en Monterrey / Online México",
-    detalles: `...`, // (tu texto)
-    cta: { texto: "Ver protocolo", url: "/protocolos" },
   },
 ];
 

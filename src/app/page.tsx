@@ -7,6 +7,7 @@ import Testimonios from "@/sections/Testimonios";
 import Comunidad from "@/sections/Comunidad";
 import DonativosSection from "@/sections/DonativosSection";
 import SocialSection from "@/components/SocialSelection";
+import ReseachCTA from "@/components/ReseatchCTA";
 
 const Hero = () => {
   return (
@@ -56,6 +57,7 @@ const Hero = () => {
       </section>
       <Pilares />
       <Servicios />
+      <ReseachCTA />
       <Testimonios />
       <Comunidad />
        <SocialSection

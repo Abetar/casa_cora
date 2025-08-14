@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { motion, useAnimation, useInView } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaInfoCircle } from "react-icons/fa";
 
-/** Tipado del servicio */
+/** Tipado */
 type Servicio = {
   nombre: string;
   costo: string;
@@ -13,6 +13,7 @@ type Servicio = {
   modalidad: string;
   detalles?: string;
   cta?: { texto: string; url: string };
+  notaPagos?: string;
 };
 
 /** Datos */
@@ -27,38 +28,12 @@ const servicios: Servicio[] = [
       "Atención psicológica profesional en modalidad presencial o virtual, adaptada a tus necesidades.",
   },
   {
-    nombre: "Sistema Integral de Sanación – Casa Cora",
-    costo: "$800 MXN quincenales",
-    descripcion:
-      "Un ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
-    modalidad: "Presencial en Monterrey / Online México",
-    detalles: `
-      Modelo integral de 10 quincenas (5–6 meses) que combina la adopción de una planta medicinal con acompañamiento terapéutico quincenal: 30 min de psicoanálisis + 30 min de guía espiritual. Aportación: $800 MXN quincenales.
-
-        Incluye:
-
-        1 planta (mínimo 120 g cosechados, genética premium)
-
-        10 sesiones quincenales (presencial o virtual)
-
-        Actualizaciones personalizadas del crecimiento
-
-        Sticker simbólico por etapa
-
-        Certificado de cosecha y genética
-
-        Derecho a plantar tus propias semillas
-
-        Afiliación gratuita a Casa CORA
-
-        Modalidad: presencial en Monterrey o virtual en toda la república.
-        Cupo: 20 personas por ciclo.
-
-        Costos no incluidos (si se requieren): insumos de cultivo (sustratos, macetas, nutrientes) y análisis de laboratorio; se cotizan y pagan por separado.
-
-        Consulta el protocolo completo en “Ver protocolo”.
-    `, // (tu texto)
-    cta: { texto: "Ver protocolo", url: "/protocolos" },
+    nombre: "Consulta cannábica guiada",
+    costo: "$800 MXN",
+    descripcion: "Asesoría personalizada sobre uso medicinal de cannabis.",
+    modalidad: "Presencial",
+    detalles:
+      "Consulta enfocada en el uso terapéutico del cannabis medicinal, con guía profesional en un entorno seguro.",
   },
   {
     nombre: "Círculo Masculino 420",
@@ -84,54 +59,111 @@ const servicios: Servicio[] = [
     detalles:
       "Aplicación de parches o aceites como complemento terapéutico en consultas presenciales.",
   },
+  {
+    nombre: "Sistema Integral de Sanación – Casa Cora",
+    costo: "$800 MXN quincenales",
+    descripcion:
+      "Ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
+    modalidad: "Presencial en Monterrey / Virtual en México",
+    detalles: `Modelo integral de 10 quincenas (5–6 meses) que combina la adopción de una planta medicinal con acompañamiento terapéutico quincenal: 30 min de psicoanálisis + 30 min de guía espiritual. Aportación: $800 MXN quincenales.
+
+Incluye:
+- 1 planta (mínimo 120 g cosechados, genética premium)
+- 10 sesiones quincenales (presencial o virtual)
+- Actualizaciones personalizadas del crecimiento
+- Sticker simbólico por etapa
+- Certificado de cosecha y genética
+- Derecho a plantar tus propias semillas
+- Afiliación gratuita a Casa CORA
+
+Modalidad: presencial en Monterrey o virtual en toda la república.
+Cupo: 20 personas por ciclo.
+
+Costos no incluidos (si se requieren): insumos de cultivo (sustratos, macetas, nutrientes) y análisis de laboratorio; se cotizan y pagan por separado.
+
+Consulta el protocolo completo en “Ver protocolo”.`,
+    cta: { texto: "Ver protocolo", url: "/protocolos" },
+    notaPagos:
+      "Insumos de cultivo y/o análisis de laboratorio (si se solicitan) se cubren aparte.",
+  },
 ];
 
-/** Card con forma de hoja */
-function CardHoja({
+/** Card (con “brillo de vela” suave) */
+function CardServicio({
   servicio,
   onClick,
 }: {
   servicio: Servicio;
   onClick: () => void;
 }) {
+  const controls = useAnimation();
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { once: false, margin: "0px 0px -10% 0px" });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({
+        boxShadow: [
+          "0 0 18px 0 rgba(212,175,55,0.16)",
+          "0 0 26px 2px rgba(212,175,55,0.28)",
+          "0 0 18px 0 rgba(212,175,55,0.16)",
+        ],
+        transition: {
+          duration: 3,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "easeInOut",
+        },
+      });
+    } else {
+      controls.stop();
+    }
+  }, [inView, controls]);
+
   return (
     <motion.div
+      ref={ref}
+      animate={controls}
       whileHover={{
-        rotate: [0, -2, 2, 0],
-        transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+        scale: 1.03,
+        boxShadow: "0 0 36px 8px rgba(212,175,55,0.45)",
       }}
-      className="relative w-60 h-[22rem] cursor-pointer flex items-center justify-center"
       onClick={onClick}
-      style={{ filter: "drop-shadow(0 0 12px rgba(212,175,55,.4))" }}
+      className="w-full max-w-sm cursor-pointer rounded-2xl border border-[#d4af37]/40 bg-white/95 backdrop-blur-sm p-6 text-center shadow-md transition-transform"
+      style={{
+        backgroundImage:
+          "radial-gradient(120px 80px at 50% -20%, rgba(212,175,55,0.10), transparent)",
+      }}
     >
-      <Image
-        src="/hoja-cora.png"
-        alt="Hoja decorativa"
-        fill
-        style={{ objectFit: "contain", pointerEvents: "none" }}
-      />
-      <div className="absolute flex flex-col items-center justify-center px-4 text-center">
-        <h3 className="text-lg font-serif text-[#d4af37] font-bold leading-tight">
-          {servicio.nombre}
-        </h3>
-        <p className="text-xl font-bold text-[#2e2e2e]">{servicio.costo}</p>
-        <p className="text-sm italic text-[#4a4a4a] mt-2">
-          {servicio.descripcion}
-        </p>
-        <span className="text-xs text-[#6b6b6b] mt-2">
-          {servicio.modalidad}
-        </span>
+      <h3 className="mb-1 font-serif text-xl font-bold leading-tight text-[#d4af37]">
+        {servicio.nombre}
+      </h3>
 
-        {servicio.cta && (
+      <p className="text-2xl font-extrabold text-[#2e2e2e]">{servicio.costo}</p>
+
+      <p className="mt-3 text-sm italic text-[#4a4a4a]">
+        {servicio.descripcion}
+      </p>
+      <p className="mt-2 text-xs text-[#6b6b6b]">{servicio.modalidad}</p>
+
+      {servicio.cta && (
+        <>
           <Link
             href={servicio.cta.url}
-            className="mt-4 inline-block bg-[#d4af37] text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-[#b48d2b] transition font-medium"
-            onClick={(e) => e.stopPropagation()} // evita abrir modal al clickear CTA
+            className="mt-5 inline-block rounded-full bg-[#d4af37] px-5 py-2 text-sm font-medium text-white shadow-md transition hover:bg-[#b48d2b]"
+            onClick={(e) => e.stopPropagation()} // evita abrir el modal al pulsar el CTA
           >
             {servicio.cta.texto}
           </Link>
-        )}
-      </div>
+
+          {servicio.notaPagos && (
+            <p className="mx-auto mt-2 flex max-w-[260px] items-start gap-1 text-[11px] leading-snug text-gray-600">
+              <FaInfoCircle className="mt-[2px] shrink-0" />
+              <span>{servicio.notaPagos}</span>
+            </p>
+          )}
+        </>
+      )}
     </motion.div>
   );
 }
@@ -151,43 +183,60 @@ export default function Servicios() {
       className="py-24 px-6 text-center"
       style={{ backgroundColor: "#fff1f5" }}
     >
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-serif text-[#d4af37] mb-12">
+      <div className="mx-auto max-w-7xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 font-serif text-4xl text-[#d4af37]"
+        >
           Servicios Terapéuticos
-        </h2>
+        </motion.h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 place-items-center">
-          {servicios.map((servicio) => (
-            <CardHoja
-              key={servicio.nombre}
-              servicio={servicio}
-              onClick={() => openModal(servicio)}
+        {/* Grid de cards */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {servicios.map((s) => (
+            <CardServicio
+              key={s.nombre}
+              servicio={s}
+              onClick={() => openModal(s)}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
 
+      {/* Modal */}
       {modalOpen && modalContent && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4 backdrop-blur-sm">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-xl max-w-lg w-full p-6 relative overflow-y-auto max-h-[90vh] shadow-lg"
+            transition={{ duration: 0.25 }}
+            className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
           >
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl"
+              className="absolute right-3 top-3 text-xl text-gray-500 hover:text-gray-800"
+              aria-label="Cerrar"
             >
               ✕
             </button>
-            <h3 className="text-2xl font-serif text-[#d4af37] mb-4 font-bold">
+            <h3 className="mb-4 font-serif text-2xl font-bold text-[#d4af37]">
               {modalContent.nombre}
             </h3>
-            {modalContent.detalles && (
-              <p className="text-sm text-[#2e2e2e] whitespace-pre-line">
+            {modalContent.detalles ? (
+              <p className="whitespace-pre-line text-sm text-[#2e2e2e]">
                 {modalContent.detalles}
               </p>
+            ) : (
+              <p className="text-sm text-[#2e2e2e]">…</p>
             )}
           </motion.div>
         </div>

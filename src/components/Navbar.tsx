@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, MouseEvent, useCallback } from "react";
+import { useState, useCallback, MouseEvent as ReactMouseEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const links = [
+type NavLink = { label: string; href: string };
+
+const links: NavLink[] = [
   { label: "Inicio", href: "#inicio" },
   { label: "Servicios", href: "#servicios" },
   { label: "Investigación", href: "/investigacion" }, // página real
@@ -20,33 +22,37 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const isSection = (href: string) => href.startsWith("#");
-  const resolveHref = (href: string) =>
+  const isSection = (href: string): boolean => href.startsWith("#");
+  const resolveHref = (href: string): string =>
     isSection(href) ? (pathname === "/" ? href : `/${href}`) : href;
 
   const handleSectionClick = useCallback(
-    (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-      if (!isSection(href)) return; // links de página (ej. /investigacion) siguen su curso
+    (e: ReactMouseEvent<HTMLAnchorElement>, href: string) => {
+      if (!isSection(href)) return; // enlaces a páginas siguen su curso
+
       if (pathname === "/") {
-        // ya estamos en el home: previene navegación y hace scroll suave
         e.preventDefault();
-        const id = href.replace("#", "");
+        const id = href.slice(1);
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-      // si NO estamos en el home, dejamos que navegue a "/#seccion"
       setIsOpen(false);
     },
     [pathname]
   );
 
+  // Devuelve un onClick tipado para cada href de sección/página
+  const clickHandlerFor =
+    (href: string) => (e: ReactMouseEvent<HTMLAnchorElement>) =>
+      handleSectionClick(e, href);
+
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full bg-black/30 backdrop-blur-md px-6 py-4 text-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md px-6 py-4 text-white">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link
           href={resolveHref("#inicio")}
-          onClick={(e) => handleSectionClick(e as any, "#inicio")}
+          onClick={clickHandlerFor("#inicio")}
           className="flex items-center gap-3"
         >
           <Image
@@ -60,15 +66,15 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden gap-8 md:flex">
+        <div className="hidden md:flex gap-8">
           {links.map((link) => {
             const href = resolveHref(link.href);
             return (
               <Link
                 key={link.label}
                 href={href}
-                onClick={(e) => handleSectionClick(e as any, link.href)}
-                className="text-white/90 transition hover:text-gold"
+                onClick={clickHandlerFor(link.href)}
+                className="text-white/90 hover:text-gold transition"
               >
                 {link.label}
               </Link>
@@ -91,7 +97,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mt-2 flex flex-col gap-4 rounded-lg bg-[#0f0e17]/95 px-6 py-4 text-center md:hidden backdrop-blur-sm"
+            className="md:hidden bg-[#0f0e17]/95 backdrop-blur-sm rounded-lg mt-2 px-6 py-4 flex flex-col gap-4 text-center"
           >
             {links.map((link) => {
               const href = resolveHref(link.href);
@@ -99,8 +105,8 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={href}
-                  onClick={(e) => handleSectionClick(e as any, link.href)}
-                  className="transition text-white hover:text-gold"
+                  onClick={clickHandlerFor(link.href)}
+                  className="text-white hover:text-gold transition"
                 >
                   {link.label}
                 </Link>

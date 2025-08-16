@@ -15,6 +15,7 @@ const links: NavLink[] = [
   { label: "Investigación", href: "/investigacion" }, // página real
   { label: "Testimonios", href: "#testimonios" },
   { label: "Comunidad", href: "#comunidad" },
+  { label: "Como Llegar", href: "#mapa" },
   { label: "Donativos", href: "#donativos" },
 ];
 

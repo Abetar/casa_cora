@@ -8,6 +8,8 @@ import Comunidad from "@/sections/Comunidad";
 import DonativosSection from "@/sections/DonativosSection";
 import SocialSection from "@/components/SocialSelection";
 import ReseachCTA from "@/components/ReseatchCTA";
+import MapaCasaCora from '@/components/MapaCasaCora'
+import GaleriaPreview from '@/sections/GaleriaPreview'
 
 const Hero = () => {
   return (
@@ -57,6 +59,7 @@ const Hero = () => {
       </section>
       <Pilares />
       <Servicios />
+      <GaleriaPreview />
       <ReseachCTA />
       <Testimonios />
       <Comunidad />
@@ -68,6 +71,7 @@ const Hero = () => {
           whatsapp: 'https://wa.me/528132497377',
         }}
       />
+      <MapaCasaCora />
       <DonativosSection />
     </>
   );

@@ -37,8 +37,8 @@ export const gallery: GalleryItem[] = [
   {
     id: "g-04",
     src: "/galeria/casa_cora_imagen_4.png",
-    alt: "Espacio de trabajo terapéutico",
-    title: "Espacio terapéutico",
+    alt: "Espacio de trabajo terapéutico 2",
+    title: "Espacio terapéutico 2",
     tags: ["espacio"],
   },
   {
@@ -47,5 +47,33 @@ export const gallery: GalleryItem[] = [
     alt: "Decoracion",
     title: "Decoración",
     tags: ["comunidad"],
+  },
+  {
+    id: "g-06",
+    src: "/galeria/casa_cora_imagen_6.jpg",
+    alt: "Consultorio",
+    title: "Consultorio",
+    tags: ["espacio"],
+  },
+  {
+    id: "g-07",
+    src: "/galeria/casa_cora_imagen_7.jpg",
+    alt: "Consultorio 2",
+    title: "Consultorio 2",
+    tags: ["espacio"],
+  },
+  {
+    id: "g-08",
+    src: "/galeria/casa_cora_imagen_8.jpg",
+    alt: "Consultorio 3",
+    title: "Consultorio 3",
+    tags: ["espacio"],
+  },
+    {
+    id: "g-09",
+    src: "/galeria/casa_cora_imagen_9.jpg",
+    alt: "Decoracion 2",
+    title: "Decoracion 2",
+    tags: ["espacio"],
   },
 ];

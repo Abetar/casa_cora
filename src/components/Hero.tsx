@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -20,16 +20,22 @@ const Hero = () => {
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
+        transition={{ duration: 1, ease: "easeOut" }}
         className="text-5xl font-serif text-gold drop-shadow-lg"
       >
-        Casa Cora
+        <Image
+          src="/logo.png"
+          alt="Fondo hero"
+          fill
+          priority
+          className="object-cover brightness-75 -z-10"
+        />
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
         className="mt-4 text-xl text-white/90 font-light"
       >
         Fundación viva de psicoterapia económica
@@ -38,13 +44,13 @@ const Hero = () => {
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, ease: 'easeOut', delay: 0.6 }}
+        transition={{ duration: 1.4, ease: "easeOut", delay: 0.6 }}
         className="mt-2 text-white/60"
       >
         Donde la planta, la palabra y la comunidad se encuentran para sanar.
       </motion.p>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

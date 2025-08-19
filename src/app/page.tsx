@@ -30,14 +30,25 @@ const Hero = () => {
           Tu navegador no soporta video HTML5.
         </video>
 
-        <motion.h1
+        {/* <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className="text-5xl font-serif text-gold drop-shadow-lg"
         >
           Casa Cora
-        </motion.h1>
+        </motion.h1> */}
+
+        <motion.img
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          src="/logo.png"
+          alt="Logo Casa Cora"
+          width={"185px"}
+          height={"185px"}
+          className="rounded-md object-contain mt-4"
+        />
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -58,9 +69,9 @@ const Hero = () => {
         </motion.p>
       </section>
       <Pilares />
+      <ReseachCTA />
       <Servicios />
       <GaleriaPreview />
-      <ReseachCTA />
       <Testimonios />
       <Comunidad />
        <SocialSection

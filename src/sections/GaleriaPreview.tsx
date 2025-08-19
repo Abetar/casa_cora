@@ -7,7 +7,7 @@ import { gallery } from '@/data/gallery'
 import { ArrowRight } from 'lucide-react'
 
 export default function GaleriaPreview() {
-  const featured = gallery.slice(0, 5)
+  const featured = gallery.slice(0, 3)
 
   return (
     <section id="galeria" className="py-20 px-6" style={{ backgroundColor: '#fff1f5' }}>
@@ -23,7 +23,7 @@ export default function GaleriaPreview() {
         </motion.h2>
 
         {/* 2 cols móvil, 3 en sm, 5 en desktop */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
           {featured.map((g, i) => (
             <div
               key={g.id}

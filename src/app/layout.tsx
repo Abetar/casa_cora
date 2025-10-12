@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 // ⬇️ nuevo wrapper cliente
 import AppNavbarShell from "@/components/AppNavbarShell";
+import { ToastProvider } from "@/hooks/use-toast";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://casacora.org"),
@@ -89,7 +90,7 @@ export default function RootLayout({
       <body className="font-sans bg-[#0f0e17] text-white">
         {/* Navbar condicional */}
         <AppNavbarShell>
-          {children}
+          <ToastProvider>{children}</ToastProvider>
         </AppNavbarShell>
 
         {/* JSON-LD */}

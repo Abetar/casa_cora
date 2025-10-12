@@ -14,6 +14,7 @@ const WhatsAppButton = () => {
       aria-label="Agendar por WhatsApp"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
+      style={{ marginBottom: '10%' }}
       transition={{ duration: 0.6, ease: 'easeOut', delay: 1 }}
       className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-green-500 hover:bg-green-600 transition shadow-lg shadow-black/30 focus:outline-none"
     >

@@ -5,8 +5,9 @@ import { useToast } from "@/hooks/use-toast";
 
 type CartItem = { id: string; name: string; price: number; qty: number };
 
-const WA = process.env.NEXT_PUBLIC_WA_NUMBER || "";
-const brand = "#1B3D2F"; // verde botánico Casa Cora (sin dark/light)
+const RAW_WA = process.env.NEXT_PUBLIC_WA_NUMBER || "";
+const brand = "#1B3D2F"; // verde botánico Casa Cora
+
 const money = (v: number) =>
   new Intl.NumberFormat("es-MX", {
     style: "currency",
@@ -19,8 +20,7 @@ const categories = ["Programas", "Consultas", "Terapias", "Productos"] as const;
 export default function TiendaCasaCora() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [form, setForm] = useState({ name: "", phone: "", note: "" });
-  const [openCart, setOpenCart] = useState(false); // 👈 drawer carrito
-
+  const [openCart, setOpenCart] = useState(false); // drawer carrito
   const { toast } = useToast();
 
   // Persistencia local
@@ -46,13 +46,49 @@ export default function TiendaCasaCora() {
   const itemsCount = useMemo(() => cart.reduce((a, i) => a + i.qty, 0), [cart]);
   const canSend = cart.length > 0 && form.name.trim() && form.phone.trim();
 
-  // helpers carrito
+  // ---------- WhatsApp helpers ----------
+  function waPhone(): string | null {
+    const digits = RAW_WA.trim().replace(/[^\d]/g, ""); // quita +, espacios, guiones
+    // 10–15 dígitos con país. MX suele ser 12 (52 + 10)
+    if (!/^\d{10,15}$/.test(digits)) return null;
+    return digits;
+  }
+
+  function waLink() {
+    const phone = waPhone();
+    const lines = cart
+      .map((i) => `• ${i.name} ×${i.qty} — ${money(i.price * i.qty)}`)
+      .join("\n");
+    const datos =
+      `\n*Nombre:* ${form.name}` +
+      `\n*Teléfono:* ${form.phone}` +
+      (form.note ? `\n*Notas:* ${form.note}` : "");
+
+    const msg = `*Casa Cora* — Pedido de Tienda\n\n${lines}\n\n*Total:* ${money(
+      total
+    )}\n${datos}`;
+
+    // api.whatsapp.com: mejor compat en Android/iOS
+    return phone
+      ? `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
+          msg
+        )}`
+      : "#";
+  }
+
+  // ---------- Carrito ----------
   function add(p: { id: string; name: string; price: number }) {
     setCart((prev) => {
       const f = prev.find((x) => x.id === p.id);
       return f
         ? prev.map((x) => (x.id === p.id ? { ...x, qty: x.qty + 1 } : x))
         : [...prev, { ...p, qty: 1 }];
+    });
+    toast({
+      title: "Añadido al carrito",
+      description: p.name,
+      variant: "success",
+      durationMs: 1500,
     });
   }
   function dec(id: string) {
@@ -73,23 +109,10 @@ export default function TiendaCasaCora() {
   }
   function removeItem(id: string) {
     setCart((prev) => prev.filter((x) => x.id !== id));
+    toast({ title: "Producto eliminado", variant: "info", durationMs: 1200 });
   }
   function clearCart() {
     setCart([]);
-  }
-
-  function waLink() {
-    const lines = cart
-      .map((i) => `• ${i.name} ×${i.qty} — ${money(i.price * i.qty)}`)
-      .join("\n");
-    const datos =
-      `\n*Nombre:* ${form.name}` +
-      `\n*Teléfono:* ${form.phone}` +
-      (form.note ? `\n*Notas:* ${form.note}` : "");
-    const msg = `*Casa Cora* — Pedido de Tienda\n\n${lines}\n\n*Total:* ${money(
-      total
-    )}\n${datos}`;
-    return `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
   }
 
   return (
@@ -281,10 +304,28 @@ export default function TiendaCasaCora() {
               if (!canSend) {
                 e.preventDefault();
                 if (cart.length === 0) {
-                  alert("Agrega al menos un producto o programa.");
+                  toast({
+                    title: "Carrito vacío",
+                    description: "Agrega al menos un producto o programa.",
+                    variant: "destructive",
+                  });
                   return;
                 }
-                alert("Completa nombre y teléfono del paciente.");
+                toast({
+                  title: "Datos incompletos",
+                  description: "Completa nombre y teléfono del paciente.",
+                  variant: "destructive",
+                });
+                return;
+              }
+              if (!waPhone()) {
+                e.preventDefault();
+                toast({
+                  title: "Número de WhatsApp no configurado",
+                  description:
+                    "Revisa NEXT_PUBLIC_WA_NUMBER en tu .env (solo dígitos, con código de país).",
+                  variant: "destructive",
+                });
               }
             }}
             target="_blank"
@@ -422,7 +463,10 @@ export default function TiendaCasaCora() {
 
               <div className="flex items-center justify-between gap-3">
                 <button
-                  onClick={clearCart}
+                  onClick={() => {
+                    clearCart();
+                    toast({ title: "Carrito vaciado", variant: "info" });
+                  }}
                   className="rounded-xl px-3 py-2 text-sm font-semibold"
                   style={{ background: "#E8EFEA", color: brand }}
                 >
@@ -448,7 +492,19 @@ export default function TiendaCasaCora() {
                         description: "Completa nombre y teléfono del paciente.",
                         variant: "destructive",
                       });
+                      return;
                     }
+                    if (!waPhone()) {
+                      e.preventDefault();
+                      toast({
+                        title: "Número de WhatsApp no configurado",
+                        description:
+                          "Revisa NEXT_PUBLIC_WA_NUMBER en tu .env (solo dígitos, con código de país).",
+                        variant: "destructive",
+                      });
+                      return;
+                    }
+                    setOpenCart(false); // cerrar drawer al continuar
                   }}
                   target="_blank"
                   rel="noopener noreferrer"

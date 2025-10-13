@@ -38,7 +38,7 @@ const Hero = () => {
         transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
         className="mt-4 text-xl text-white/90 font-light"
       >
-        Fundación viva de psicoterapia económica skajndaskn
+        Fundación viva de psicoterapia económica
       </motion.p>
 
       <motion.p

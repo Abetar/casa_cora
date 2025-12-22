@@ -10,7 +10,7 @@ export default function GaleriaPreview() {
   const featured = gallery.slice(0, 3)
 
   return (
-    <section id="galeria" className="py-20 px-6" style={{ backgroundColor: '#fff1f5' }}>
+    <section id="galeria" className="py-20 px-6 bg-[#0f0e17]">
       <div className="mx-auto max-w-7xl">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

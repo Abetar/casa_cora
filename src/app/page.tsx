@@ -12,6 +12,7 @@ import MapaCasaCora from "@/components/MapaCasaCora";
 import GaleriaPreview from "@/sections/GaleriaPreview";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import PaternidadConAmorCTA from "@/components/PaternidadConAmorCTA";
 
 const BRAND = "#1B3D2F";
 
@@ -107,6 +108,7 @@ const Hero = () => {
       <Pilares />
       <ReseachCTA />
       <Servicios />
+      <PaternidadConAmorCTA />
       <GaleriaPreview />
       <Testimonios />
       <Comunidad />

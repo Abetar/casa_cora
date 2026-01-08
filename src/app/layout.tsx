@@ -3,9 +3,16 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-// ⬇️ nuevo wrapper cliente
 import AppNavbarShell from "@/components/AppNavbarShell";
 import { ToastProvider } from "@/hooks/use-toast";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://casacora.org"),
@@ -86,15 +93,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body className="font-sans bg-[#0f0e17] text-white">
-        {/* Navbar condicional */}
+    <html lang="es" className={montserrat.variable}>
+      <body className="font-sans antialiased bg-[#0f0e17] text-white">
         <AppNavbarShell>
           <ToastProvider>{children}</ToastProvider>
         </AppNavbarShell>
 
-        {/* JSON-LD */}
-        <Script id="org-jsonld" type="application/ld+json" strategy="afterInteractive">
+        <Script
+          id="org-jsonld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "NGO",

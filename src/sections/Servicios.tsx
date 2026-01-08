@@ -1,242 +1,373 @@
 "use client";
 
-import { motion, useAnimation, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { FaInfoCircle } from "react-icons/fa";
+import { useMemo, useState } from "react";
+import {
+  CheckCircle2,
+  Shield,
+  Users,
+  FileText,
+  X,
+  ShoppingBag,
+} from "lucide-react";
 
 /** Tipado */
-type Servicio = {
+type MenuItem = {
   nombre: string;
   costo: string;
-  descripcion: string;
-  modalidad: string;
+  descripcion?: string;
   detalles?: string;
   cta?: { texto: string; url: string };
-  notaPagos?: string;
+  badge?: string; // "desde", "donación", etc
 };
 
-/** Datos */
-const servicios: Servicio[] = [
-  {
-    nombre: "Psicoterapia básica",
-    costo: "$450 MXN",
-    descripcion:
-      "Sesiones de psicoterapia para el manejo emocional y crecimiento personal.",
-    modalidad: "Online / Presencial",
-    detalles:
-      "Atención psicológica profesional en modalidad presencial o virtual, adaptada a tus necesidades.",
-  },
-  {
-    nombre: "Consulta cannábica guiada",
-    costo: "$800 MXN",
-    descripcion: "Asesoría personalizada sobre uso medicinal de cannabis.",
-    modalidad: "Presencial",
-    detalles:
-      "Consulta enfocada en el uso terapéutico del cannabis medicinal, con guía profesional en un entorno seguro.",
-  },
-  {
-    nombre: "Círculo Masculino 420",
-    costo: "Donación libre",
-    descripcion: "Espacio seguro para hombres que comparten y reflexionan.",
-    modalidad: "Grupal mensual",
-    detalles:
-      "Reunión mensual para trabajar en comunidad, compartir experiencias y generar conciencia.",
-  },
-  {
-    nombre: "Coaching existencial filosófico",
-    costo: "$200 MXN",
-    descripcion: "Acompañamiento para encontrar propósito y claridad.",
-    modalidad: "Online",
-    detalles:
-      "Sesiones virtuales para reflexionar sobre tu vida, decisiones y dirección personal.",
-  },
-  {
-    nombre: "Aplicación de parches / aceites",
-    costo: "Incluido en consulta",
-    descripcion: "Tratamientos naturales aplicados durante la consulta.",
-    modalidad: "Complementaria",
-    detalles:
-      "Aplicación de parches o aceites como complemento terapéutico en consultas presenciales.",
-  },
-  {
-    nombre: "Sistema Integral de Sanación – Casa Cora",
-    costo: "$800 MXN quincenales",
-    descripcion:
-      "Ciclo de 10 quincenas con terapia, guía espiritual y cultivo de tu planta medicinal.",
-    modalidad: "Presencial en Monterrey / Virtual en México",
-    detalles: `Modelo integral de 10 quincenas (5–6 meses) que combina la adopción de una planta medicinal con acompañamiento terapéutico quincenal: 30 min de psicoanálisis + 30 min de guía espiritual. Aportación: $800 MXN quincenales.
-
-Incluye:
-- 1 planta (mínimo 120 g cosechados, genética premium)
-- 10 sesiones quincenales (presencial o virtual)
-- Actualizaciones personalizadas del crecimiento
-- Sticker simbólico por etapa
-- Certificado de cosecha y genética
-- Derecho a plantar tus propias semillas
-- Afiliación gratuita a Casa CORA
-
-Modalidad: presencial en Monterrey o virtual en toda la república.
-Cupo: 20 personas por ciclo.
-
-Costos no incluidos (si se requieren): insumos de cultivo (sustratos, macetas, nutrientes) y análisis de laboratorio; se cotizan y pagan por separado.
-
-Consulta el protocolo completo en “Ver protocolo”.`,
-    cta: { texto: "Ver protocolo", url: "/protocolos" },
-    notaPagos:
-      "Insumos de cultivo y/o análisis de laboratorio (si se solicitan) se cubren aparte.",
-  },
-];
-
-/** Card (con “brillo de vela” suave) */
-function CardServicio({
-  servicio,
-  onClick,
-}: {
-  servicio: Servicio;
-  onClick: () => void;
-}) {
-  const controls = useAnimation();
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: false, margin: "0px 0px -10% 0px" });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start({
-        boxShadow: [
-          "0 0 18px 0 rgba(212,175,55,0.16)",
-          "0 0 26px 2px rgba(212,175,55,0.28)",
-          "0 0 18px 0 rgba(212,175,55,0.16)",
-        ],
-        transition: {
-          duration: 3,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "easeInOut",
-        },
-      });
-    } else {
-      controls.stop();
-    }
-  }, [inView, controls]);
-
-  return (
-    <motion.div
-      ref={ref}
-      animate={controls}
-      whileHover={{
-        scale: 1.03,
-        boxShadow: "0 0 36px 8px rgba(212,175,55,0.45)",
-      }}
-      onClick={onClick}
-      className="w-full max-w-sm cursor-pointer rounded-2xl border border-[#d4af37]/40 bg-white/95 backdrop-blur-sm p-6 text-center shadow-md transition-transform"
-      style={{
-        backgroundImage:
-          "radial-gradient(120px 80px at 50% -20%, rgba(212,175,55,0.10), transparent)",
-      }}
-    >
-      <h3 className="mb-1 font-serif text-xl font-bold leading-tight text-[#d4af37]">
-        {servicio.nombre}
-      </h3>
-
-      <p className="text-2xl font-extrabold text-[#2e2e2e]">{servicio.costo}</p>
-
-      <p className="mt-3 text-sm italic text-[#4a4a4a]">
-        {servicio.descripcion}
-      </p>
-      <p className="mt-2 text-xs text-[#6b6b6b]">{servicio.modalidad}</p>
-
-      {servicio.cta && (
-        <>
-          <Link
-            href={servicio.cta.url}
-            className="mt-5 inline-block rounded-full bg-[#d4af37] px-5 py-2 text-sm font-medium text-white shadow-md transition hover:bg-[#b48d2b]"
-            onClick={(e) => e.stopPropagation()} // evita abrir el modal al pulsar el CTA
-          >
-            {servicio.cta.texto}
-          </Link>
-
-          {servicio.notaPagos && (
-            <p className="mx-auto mt-2 flex max-w-[260px] items-start gap-1 text-[11px] leading-snug text-gray-600">
-              <FaInfoCircle className="mt-[2px] shrink-0" />
-              <span>{servicio.notaPagos}</span>
-            </p>
-          )}
-        </>
-      )}
-    </motion.div>
-  );
-}
+type MenuSection = {
+  titulo: string;
+  items: MenuItem[];
+  nota?: string;
+};
 
 export default function Servicios() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<Servicio | null>(null);
+  const [modalContent, setModalContent] = useState<MenuItem | null>(null);
 
-  const openModal = (servicio: Servicio) => {
-    setModalContent(servicio);
+  const openModal = (item: MenuItem) => {
+    if (!item.detalles) return; // conservador: solo abre modal si hay detalles
+    setModalContent(item);
     setModalOpen(true);
   };
+
+  const menu = useMemo<MenuSection[]>(
+    () => [
+      {
+        titulo: "Servicios Base",
+        items: [
+          {
+            nombre: "Sesión psicológica (sin cannabis)",
+            costo: "$420 MXN",
+            descripcion:
+              "Acompañamiento clínico para regulación emocional y procesos personales.",
+            detalles:
+              "Sesión individual con enfoque terapéutico: contención, claridad y acompañamiento responsable. Modalidad: online o presencial (según disponibilidad).",
+          },
+          {
+            nombre: "Consultoría Personal Estratégica",
+            costo: "$420 MXN",
+            descripcion:
+              "Sesión enfocada en claridad personal, toma de decisiones y orden financiero.",
+            detalles:
+              "Acompañamiento estratégico y humano para evaluar decisiones, hábitos y carga emocional relacionada a lo económico. No motivacional; orientado a claridad.",
+          },
+          {
+            nombre: "Círculo masculino 420",
+            costo: "Donación voluntaria",
+            descripcion: "Espacio grupal contenido, serio y sin juicio.",
+            detalles:
+              "Círculo mensual para compartir, reflexionar y sostener procesos en comunidad. Donación voluntaria para sostener el espacio.",
+          },
+        ],
+      },
+      {
+        titulo: "Servicios con Acompañamiento Psicocannábico",
+        items: [
+          {
+            nombre: "Consulta psicocannábica",
+            costo: "desde $1,499 MXN",
+            badge: "desde",
+            descripcion:
+              "Evaluación y acompañamiento responsable para uso medicinal.",
+            detalles:
+              "Proceso guiado y contenido. Sujeto a evaluación y criterios de admisión. No es una venta de producto: es acompañamiento terapéutico responsable.",
+          },
+          {
+            nombre: "Inmersión psicoterapéutica",
+            costo: "desde $12,500 MXN",
+            badge: "desde",
+            descripcion:
+              "Proceso intensivo con estructura y contención profesional.",
+            detalles:
+              "Inmersión diseñada para profundizar en un proceso terapéutico. Sujeto a evaluación y criterios de admisión.",
+          },
+          {
+            nombre: "Inmersión premium",
+            costo: "desde $25,000 MXN",
+            badge: "desde",
+            descripcion:
+              "Acompañamiento extendido, personalizado y con mayor contención.",
+            detalles:
+              "Versión premium de inmersión. Sujeto a evaluación y criterios de admisión.",
+          },
+        ],
+      },
+      {
+        titulo: "Protocolos Experimentales*",
+        nota: "*Sujetos a evaluación y criterios de admisión.",
+        items: [
+          {
+            nombre: "Rehabilitación inmersiva (15 días)",
+            costo: "desde $49,000 MXN",
+            badge: "desde",
+            descripcion:
+              "Intervención intensiva con estructura, contención y evaluación previa.",
+            detalles:
+              "Protocolo intensivo de 15 días. Requiere evaluación y admisión. Enfoque clínico y acompañamiento responsable.",
+          },
+          {
+            nombre: "Protocolo experimental oncológico",
+            costo: "desde $59,000 MXN",
+            badge: "desde",
+            descripcion:
+              "Protocolo experimental sujeto a criterios y evaluación profesional.",
+            detalles:
+              "Protocolo experimental con criterios estrictos de admisión. Evaluación previa obligatoria.",
+          },
+        ],
+      },
+    ],
+    []
+  );
+
+  const productos = useMemo<MenuItem[]>(
+    () => [
+      { nombre: "Gel terapéutico Casa Cora 120 g", costo: "$299 MXN" },
+      { nombre: "Trip Enhancer Casa Cora 10 ml", costo: "$199 MXN" },
+      { nombre: "Aceite CBD 1600 mg / 30 ml", costo: "$980 MXN" },
+    ],
+    []
+  );
 
   return (
     <section
       id="servicios"
-      className="py-24 px-6 text-center"
-      style={{ backgroundColor: "#fff1f5" }}
+      className="relative py-20 sm:py-24"
+      aria-label="Servicios en formato menú"
     >
-      <div className="mx-auto max-w-7xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-12 font-serif text-4xl text-[#d4af37]"
-        >
-          Servicios Terapéuticos
-        </motion.h2>
-
-        {/* Grid de cards */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {servicios.map((s) => (
-            <CardServicio
-              key={s.nombre}
-              servicio={s}
-              onClick={() => openModal(s)}
-            />
-          ))}
-        </motion.div>
+      {/* Fondo ceremonial, sin rosa */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[#0f0e17]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] via-black/0 to-white/[0.03]" />
       </div>
 
-      {/* Modal */}
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="mb-10 sm:mb-12"
+        >
+          <p className="text-xs tracking-[0.18em] uppercase text-white/55">
+            Servicios · Casa Cora
+          </p>
+          <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-[#d4af37]">
+            Servicios Terapéuticos
+          </h2>
+          <p className="mt-4 max-w-3xl text-base sm:text-lg text-white/80 leading-relaxed">
+            Acompañamiento serio, contenido y responsable. Cada proceso se define
+            con evaluación previa.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-10 lg:grid-cols-[1.35fr_0.65fr]">
+          {/* Columna izquierda: menú */}
+          <div className="space-y-10">
+            {menu.map((section) => (
+              <div key={section.titulo}>
+                <h3 className="font-serif text-xl sm:text-2xl text-white">
+                  {section.titulo}
+                </h3>
+
+                <div className="mt-5 rounded-3xl border border-[#d4af37]/15 bg-white/[0.03] backdrop-blur-md">
+                  <ul className="divide-y divide-white/10">
+                    {section.items.map((item) => (
+                      <li key={item.nombre}>
+                        <button
+                          type="button"
+                          onClick={() => openModal(item)}
+                          className="w-full text-left px-5 sm:px-6 py-5 transition hover:bg-white/[0.03]"
+                        >
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0">
+                              <p className="text-sm sm:text-base text-white/90">
+                                {item.nombre}
+                              </p>
+                              {item.descripcion && (
+                                <p className="mt-1 text-xs sm:text-sm text-white/60 leading-relaxed">
+                                  {item.descripcion}
+                                </p>
+                              )}
+                            </div>
+
+                            <div className="shrink-0 text-right">
+                              <p className="text-sm sm:text-base font-semibold text-[#d4af37]">
+                                {item.costo}
+                              </p>
+                              {item.detalles && (
+                                <p className="mt-1 text-[11px] text-white/45">
+                                  Ver detalles
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          {item.cta && (
+                            <div className="mt-3">
+                              <Link
+                                href={item.cta.url}
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/35 bg-black/30 px-4 py-2 text-xs sm:text-sm text-[#d4af37] transition hover:border-[#d4af37]/55 hover:bg-black/40"
+                              >
+                                <FileText className="h-4 w-4" />
+                                {item.cta.texto}
+                              </Link>
+                            </div>
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {section.nota && (
+                  <p className="mt-3 text-xs text-white/50">{section.nota}</p>
+                )}
+              </div>
+            ))}
+
+            {/* Productos */}
+            <div className="pt-2">
+              <h3 className="font-serif text-xl sm:text-2xl text-white">
+                Productos Casa Cora
+              </h3>
+
+              <div className="mt-5 rounded-3xl border border-[#d4af37]/15 bg-white/[0.03] backdrop-blur-md">
+                <ul className="divide-y divide-white/10">
+                  {productos.map((p) => (
+                    <li key={p.nombre} className="px-5 sm:px-6 py-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <p className="text-sm sm:text-base text-white/90">
+                          {p.nombre}
+                        </p>
+                        <p className="shrink-0 text-sm sm:text-base font-semibold text-[#d4af37]">
+                          {p.costo}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6">
+                <Link
+                  href="/tienda"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#d4af37]/45 bg-black/30 px-6 py-3 text-sm sm:text-base text-[#d4af37] backdrop-blur-md transition hover:border-[#d4af37]/65 hover:bg-black/40"
+                  aria-label="Ir a la tienda"
+                >
+                  <ShoppingBag className="h-4 w-4" />
+                  Ir a la tienda
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Columna derecha: autoridad y confianza */}
+          <aside className="lg:pt-[74px]">
+            <div className="rounded-3xl border border-[#d4af37]/15 bg-white/[0.03] p-6 sm:p-7 backdrop-blur-md">
+              <h3 className="font-serif text-xl text-white">Autoridad y confianza</h3>
+
+              <div className="mt-6 space-y-7">
+                <div>
+                  <div className="flex items-center gap-2 text-white/85">
+                    <Shield className="h-4 w-4 text-[#d4af37]" />
+                    <h4 className="font-serif text-base">Nuestro enfoque</h4>
+                  </div>
+                  <ul className="mt-3 space-y-3 text-sm text-white/70">
+                    {[
+                      "Uso medicinal y responsable",
+                      "Protocolos escritos y contención profesional",
+                      "Espacios controlados y evaluación previa",
+                    ].map((t) => (
+                      <li key={t} className="flex gap-3">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 text-[#d4af37]/90" />
+                        <span className="leading-relaxed">{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="h-px bg-white/10" />
+
+                <div>
+                  <div className="flex items-center gap-2 text-white/85">
+                    <Users className="h-4 w-4 text-[#d4af37]" />
+                    <h4 className="font-serif text-base">Equipo y respaldo</h4>
+                  </div>
+                  <ul className="mt-3 space-y-3 text-sm text-white/70">
+                    {[
+                      "Psicoterapia clínica",
+                      "Experiencia real en análisis financiero personal y toma de decisiones",
+                      "Acompañamiento estratégico, no motivacional ni aspiracional",
+                    ].map((t) => (
+                      <li key={t} className="flex gap-3">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 text-[#d4af37]/90" />
+                        <span className="leading-relaxed">{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <Link
+                  href="/#contacto"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-[#d4af37]/45 bg-[#0f0e17]/60 px-6 py-3 text-sm text-[#d4af37] transition hover:border-[#d4af37]/65 hover:bg-[#0f0e17]/70"
+                >
+                  Agendar evaluación
+                </Link>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      {/* Modal detalles (solo si hay detalles) */}
       {modalOpen && modalContent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
           <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
-            className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-[#d4af37]/20 bg-[#0f0e17] p-6 shadow-[0_18px_60px_rgba(0,0,0,.55)]"
           >
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute right-3 top-3 text-xl text-gray-500 hover:text-gray-800"
+              className="absolute right-4 top-4 rounded-full border border-white/10 bg-white/[0.04] p-2 text-white/70 transition hover:bg-white/[0.08] hover:text-white"
               aria-label="Cerrar"
+              type="button"
             >
-              ✕
+              <X className="h-5 w-5" />
             </button>
-            <h3 className="mb-4 font-serif text-2xl font-bold text-[#d4af37]">
+
+            <h3 className="mb-2 font-serif text-2xl text-[#d4af37]">
               {modalContent.nombre}
             </h3>
-            {modalContent.detalles ? (
-              <p className="whitespace-pre-line text-sm text-[#2e2e2e]">
-                {modalContent.detalles}
-              </p>
-            ) : (
-              <p className="text-sm text-[#2e2e2e]">…</p>
+            <p className="mb-5 text-sm text-white/70">{modalContent.costo}</p>
+
+            <p className="whitespace-pre-line text-sm leading-relaxed text-white/80">
+              {modalContent.detalles ?? ""}
+            </p>
+
+            {modalContent.cta && (
+              <div className="mt-6">
+                <Link
+                  href={modalContent.cta.url}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/45 bg-black/30 px-5 py-2.5 text-sm text-[#d4af37] transition hover:border-[#d4af37]/65 hover:bg-black/40"
+                >
+                  <FileText className="h-4 w-4" />
+                  {modalContent.cta.texto}
+                </Link>
+              </div>
             )}
           </motion.div>
         </div>

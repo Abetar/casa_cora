@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import {
   ShoppingCart,
   MessageCircle,
@@ -22,7 +23,8 @@ import {
   X,
 } from "lucide-react";
 
-const BRAND = "#1B3D2F";
+const GOLD = "#d4af37";
+const INK = "#0f0e17";
 const MP_LINK = "https://mpago.la/2ctwFwD";
 const WA_LINK =
   "https://wa.me/5218132497377?text=Quiero%20saber%20m%C3%A1s%20del%20libro%20de%20paternidad%2C%20por%20favor";
@@ -33,64 +35,66 @@ function cn(...classes: Array<string | false | undefined>) {
 
 export default function PaternidadConAmorPage() {
   return (
-    <main
-      className="min-h-screen"
-      style={{
-        background:
-          "radial-gradient(900px 700px at 15% 10%, rgba(212,175,55,0.12) 0%, rgba(212,175,55,0) 60%)," +
-          "radial-gradient(900px 700px at 80% 20%, rgba(27,61,47,0.18) 0%, rgba(27,61,47,0) 60%)," +
-          "radial-gradient(900px 700px at 40% 90%, rgba(255,209,220,0.14) 0%, rgba(255,209,220,0) 60%)," +
-          "#fbf6ef",
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-4 pb-28 pt-24">
+    <main className="min-h-screen bg-[#0f0e17] text-white">
+      {/* Fondo “Casa Cora” */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[#0f0e17]" />
+        <div
+          className="absolute -top-32 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full blur-3xl"
+          style={{ background: "rgba(212,175,55,0.10)" }}
+        />
+        <div
+          className="absolute top-48 right-[-140px] h-[520px] w-[520px] rounded-full blur-3xl"
+          style={{ background: "rgba(255,209,220,0.10)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-white/[0.03] to-black/0" />
+      </div>
+
+      <div className="mx-auto max-w-6xl px-6 pb-28 pt-24">
+        {/* Volver */}
+        <div className="mb-6">
+          <Link href="/" className="text-white/70 hover:text-white hover:underline">
+            ← Volver al inicio
+          </Link>
+        </div>
+
         {/* Hero */}
-        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <div className="mt-2 grid gap-6 lg:grid-cols-2">
           {/* Copy Card */}
           <motion.section
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="rounded-3xl border bg-white/70 p-6 shadow-[0_16px_50px_rgba(0,0,0,.08)] backdrop-blur-md"
-            style={{ borderColor: "rgba(27,61,47,0.16)" }}
+            className="rounded-3xl border bg-white/[0.03] p-6 sm:p-7 shadow-[0_16px_55px_rgba(0,0,0,.35)] backdrop-blur-md"
+            style={{ borderColor: "rgba(212,175,55,0.16)" }}
           >
-            <h1
-              className="text-4xl font-extrabold leading-tight sm:text-5xl"
-              style={{ color: "#243535" }}
-            >
+            <p className="text-xs tracking-[0.18em] uppercase text-white/55">
+              Subpágina · Paternidad con Amor
+            </p>
+
+            <h1 className="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl leading-tight text-white">
               Papá: no tienes que improvisar.
-              <br />
-              Aquí tienes <span style={{ color: BRAND }}>1,095 días</span>{" "}
-              listos.
+              <span className="block text-white/85">
+                Aquí tienes{" "}
+                <span style={{ color: GOLD }} className="font-semibold">
+                  1,095 días
+                </span>{" "}
+                listos.
+              </span>
             </h1>
 
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: "rgba(36,53,53,.78)" }}
-            >
+            <p className="mt-4 text-sm sm:text-base leading-relaxed text-white/75">
               <b>Guía y Bitácora 0–3 años (Papás)</b> — porque a veces lo que
-              falta no es amor… es <b>estructura</b>. Hecho para <b>imprimir</b>
-              , <b>encuadernar</b> y guardarse como <b>recuerdo familiar</b> al
-              cumplir 3 años.
+              falta no es amor… es <b>estructura</b>. Hecho para{" "}
+              <b>imprimir</b>, <b>encuadernar</b> y guardarse como{" "}
+              <b>recuerdo familiar</b> al cumplir 3 años.
             </p>
 
             {/* KPIs */}
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <Kpi
-                icon={<CalendarDays size={18} />}
-                value="1,095"
-                label="días listos"
-              />
-              <Kpi
-                icon={<FileText size={18} />}
-                value="2"
-                label="páginas por día"
-              />
-              <Kpi
-                icon={<CheckCircle2 size={18} />}
-                value="6"
-                label="actividades + Plan B"
-              />
+              <Kpi icon={<CalendarDays size={18} />} value="1,095" label="días listos" />
+              <Kpi icon={<FileText size={18} />} value="2" label="páginas por día" />
+              <Kpi icon={<CheckCircle2 size={18} />} value="6" label="actividades + Plan B" />
             </div>
 
             {/* Chips */}
@@ -109,11 +113,12 @@ export default function PaternidadConAmorPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-extrabold text-white",
-                  "shadow-[0_16px_50px_rgba(0,0,0,.12)] active:translate-y-[1px]"
+                  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold",
+                  "shadow-[0_16px_50px_rgba(0,0,0,.18)] active:translate-y-[1px]"
                 )}
                 style={{
-                  background: `linear-gradient(135deg, ${BRAND} 0%, rgba(27,61,47,0.85) 100%)`,
+                  background: GOLD,
+                  color: INK,
                 }}
               >
                 <ShoppingCart size={18} />
@@ -126,12 +131,12 @@ export default function PaternidadConAmorPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-extrabold",
-                  "bg-white/70 active:translate-y-[1px]"
+                  "inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold",
+                  "bg-white/[0.04] backdrop-blur-md active:translate-y-[1px] hover:bg-white/[0.07]"
                 )}
                 style={{
-                  borderColor: "rgba(27,61,47,0.18)",
-                  color: BRAND,
+                  borderColor: "rgba(255,255,255,0.16)",
+                  color: "rgba(255,255,255,0.88)",
                 }}
               >
                 <MessageCircle size={18} />
@@ -139,10 +144,8 @@ export default function PaternidadConAmorPage() {
               </a>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold">
-              <Pill icon={<ShieldCheck size={14} />}>
-                Pago seguro (Mercado Pago)
-              </Pill>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+              <Pill icon={<ShieldCheck size={14} />}>Pago seguro (Mercado Pago)</Pill>
               <Pill icon={<Download size={14} />}>Descarga inmediata</Pill>
             </div>
           </motion.section>
@@ -152,44 +155,45 @@ export default function PaternidadConAmorPage() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
-            className="rounded-3xl border bg-white/60 p-6 shadow-[0_16px_50px_rgba(0,0,0,.08)] backdrop-blur-md"
-            style={{ borderColor: "rgba(27,61,47,0.16)" }}
+            className="rounded-3xl border bg-white/[0.03] p-6 sm:p-7 shadow-[0_16px_55px_rgba(0,0,0,.35)] backdrop-blur-md"
+            style={{ borderColor: "rgba(212,175,55,0.16)" }}
           >
             <div
               className="relative w-full overflow-hidden rounded-3xl border"
               style={{
-                borderColor: "rgba(27,61,47,0.16)",
+                borderColor: "rgba(255,255,255,0.12)",
                 background:
-                  "linear-gradient(145deg, rgba(27,61,47,.10), rgba(212,175,55,.10))",
+                  "radial-gradient(700px 260px at 25% 20%, rgba(212,175,55,0.10) 0%, rgba(212,175,55,0.00) 60%)," +
+                  "radial-gradient(900px 300px at 80% 80%, rgba(255,209,220,0.10) 0%, rgba(255,209,220,0.00) 55%)," +
+                  "linear-gradient(180deg, rgba(15,14,23,0.96) 0%, rgba(10,10,14,0.96) 100%)",
                 aspectRatio: "4 / 5",
               }}
             >
-              {/* Imagen */}
               <Image
-                src="/banner.jpeg" // ✅ cambia esto a tu imagen real
+                src="/banner.jpeg"
                 alt="Paternidad con Amor — Portada"
                 fill
                 priority
                 className="object-cover"
               />
 
-              {/* Overlay suave (premium) */}
+              {/* Overlay */}
               <div
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.18) 55%, rgba(0,0,0,0.38) 100%)",
+                    "linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.28) 55%, rgba(0,0,0,0.58) 100%)",
                 }}
               />
 
-              {/* Badge superior */}
+              {/* Badge */}
               <div className="absolute left-4 top-4">
                 <span
-                  className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-extrabold"
+                  className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold"
                   style={{
-                    borderColor: "rgba(255,255,255,0.35)",
-                    background: "rgba(255,255,255,0.18)",
-                    color: "rgba(255,255,255,0.95)",
+                    borderColor: "rgba(255,255,255,0.26)",
+                    background: "rgba(255,255,255,0.10)",
+                    color: "rgba(255,255,255,0.92)",
                     backdropFilter: "blur(10px)",
                   }}
                 >
@@ -198,6 +202,11 @@ export default function PaternidadConAmorPage() {
                 </span>
               </div>
             </div>
+
+            <p className="mt-4 text-sm text-white/70 leading-relaxed">
+              Diseñado para acompañar el día a día sin “perfección”. Estructura
+              suave, práctica y humana.
+            </p>
           </motion.section>
         </div>
 
@@ -234,23 +243,11 @@ export default function PaternidadConAmorPage() {
         {/* ¿Para quién es? */}
         <SectionCard title="¿Para quién es?">
           <div className="grid gap-3 sm:grid-cols-3">
-            <Kpi
-              icon={<BookOpen size={18} />}
-              value="Papás nuevos"
-              label="que quieren una guía clara desde el día 1"
-            />
-            <Kpi
-              icon={<CalendarDays size={18} />}
-              value="Papás ocupados"
-              label="estructura suave, sin culpa"
-            />
-            <Kpi
-              icon={<Gift size={18} />}
-              value="Regalo"
-              label="para baby shower / nacimiento"
-            />
+            <Kpi icon={<BookOpen size={18} />} value="Papás nuevos" label="guía clara desde el día 1" />
+            <Kpi icon={<CalendarDays size={18} />} value="Papás ocupados" label="estructura suave, sin culpa" />
+            <Kpi icon={<Gift size={18} />} value="Regalo" label="baby shower / nacimiento" />
           </div>
-          <p className="mt-3 text-sm" style={{ color: "rgba(27,61,47,0.70)" }}>
+          <p className="mt-3 text-sm text-white/60">
             Este material no sustituye evaluación médica. Si algo te preocupa,
             consulta a tu pediatra.
           </p>
@@ -277,20 +274,19 @@ export default function PaternidadConAmorPage() {
               href={MP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-extrabold text-white shadow-[0_16px_50px_rgba(0,0,0,.12)] active:translate-y-[1px]"
-              style={{
-                background: `linear-gradient(135deg, ${BRAND} 0%, rgba(27,61,47,0.85) 100%)`,
-              }}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-[0_16px_50px_rgba(0,0,0,.18)] active:translate-y-[1px]"
+              style={{ background: GOLD, color: INK }}
             >
               <ShoppingCart size={18} />
               Comprar ahora
             </a>
+
             <a
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border bg-white/70 px-5 py-3 text-sm font-extrabold active:translate-y-[1px]"
-              style={{ borderColor: "rgba(27,61,47,0.18)", color: BRAND }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold bg-white/[0.04] hover:bg-white/[0.07] active:translate-y-[1px]"
+              style={{ borderColor: "rgba(255,255,255,0.16)", color: "rgba(255,255,255,0.88)" }}
             >
               <MessageCircle size={18} />
               Preguntar por WhatsApp
@@ -310,7 +306,7 @@ export default function PaternidadConAmorPage() {
           />
           <Faq
             q="¿Y si me salto días?"
-            a="Continúas donde vas. No hay “atraso”: hay vida real. La constancia suave vale más que la perfección."
+            a='Continúas donde vas. No hay “atraso”: hay vida real. La constancia suave vale más que la perfección.'
           />
           <Faq
             q="¿Cómo pido soporte?"
@@ -319,7 +315,7 @@ export default function PaternidadConAmorPage() {
         </SectionCard>
       </div>
 
-      {/* Floating CTA (minimizable) */}
+      {/* Floating CTA */}
       <FloatingCTA />
     </main>
   );
@@ -336,16 +332,14 @@ function Kpi({
 }) {
   return (
     <div
-      className="rounded-2xl border bg-white px-4 py-4"
-      style={{ borderColor: "rgba(27,61,47,0.16)" }}
+      className="rounded-2xl border bg-white/[0.03] px-4 py-4 backdrop-blur-md"
+      style={{ borderColor: "rgba(255,255,255,0.12)" }}
     >
-      <div className="flex items-center gap-2 text-lg font-extrabold text-[#243535]">
-        {icon}
+      <div className="flex items-center gap-2 text-base font-semibold text-white">
+        <span className="text-[#d4af37]">{icon}</span>
         {value}
       </div>
-      <div className="mt-1 text-xs font-semibold text-[rgba(27,61,47,0.70)]">
-        {label}
-      </div>
+      <div className="mt-1 text-xs font-medium text-white/60">{label}</div>
     </div>
   );
 }
@@ -359,10 +353,10 @@ function Chip({
 }) {
   return (
     <span
-      className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-2 text-xs font-extrabold"
-      style={{ borderColor: "rgba(27,61,47,0.16)", color: "#243535" }}
+      className="inline-flex items-center gap-2 rounded-full border bg-white/[0.03] px-3 py-2 text-xs font-semibold backdrop-blur-md"
+      style={{ borderColor: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.88)" }}
     >
-      {icon}
+      <span className="text-[#d4af37]">{icon}</span>
       {children}
     </span>
   );
@@ -377,14 +371,10 @@ function Pill({
 }) {
   return (
     <span
-      className="inline-flex items-center gap-2 rounded-full border px-3 py-1"
-      style={{
-        borderColor: "rgba(27,61,47,0.16)",
-        background: "rgba(255,255,255,0.55)",
-        color: "rgba(27,61,47,0.75)",
-      }}
+      className="inline-flex items-center gap-2 rounded-full border bg-white/[0.03] px-3 py-1 text-xs font-medium backdrop-blur-md"
+      style={{ borderColor: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.75)" }}
     >
-      {icon}
+      <span className="text-[#d4af37]">{icon}</span>
       {children}
     </span>
   );
@@ -399,12 +389,10 @@ function SectionCard({
 }) {
   return (
     <section
-      className="mt-6 rounded-3xl border bg-white/70 p-6 shadow-[0_16px_50px_rgba(0,0,0,.08)] backdrop-blur-md"
-      style={{ borderColor: "rgba(27,61,47,0.16)" }}
+      className="mt-6 rounded-3xl border bg-white/[0.03] p-6 sm:p-7 shadow-[0_16px_55px_rgba(0,0,0,.35)] backdrop-blur-md"
+      style={{ borderColor: "rgba(212,175,55,0.14)" }}
     >
-      <h2 className="text-xl font-extrabold" style={{ color: "#243535" }}>
-        {title}
-      </h2>
+      <h2 className="font-serif text-2xl text-[#d4af37]">{title}</h2>
       <div className="mt-4">{children}</div>
     </section>
   );
@@ -423,22 +411,20 @@ function Li({
 }) {
   return (
     <li
-      className="flex gap-3 rounded-2xl border bg-white px-4 py-3"
-      style={{ borderColor: "rgba(27,61,47,0.14)" }}
+      className="flex gap-3 rounded-2xl border bg-white/[0.03] px-4 py-3 backdrop-blur-md"
+      style={{ borderColor: "rgba(255,255,255,0.12)" }}
     >
       <span
-        className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-xl border"
+        className="mt-1 inline-flex h-9 w-9 items-center justify-center rounded-2xl border"
         style={{
-          borderColor: "rgba(27,61,47,0.14)",
-          background: "rgba(212,175,55,0.12)",
-          color: BRAND,
+          borderColor: "rgba(212,175,55,0.18)",
+          background: "rgba(212,175,55,0.10)",
+          color: GOLD,
         }}
       >
         {icon}
       </span>
-      <div className="text-sm leading-relaxed" style={{ color: "#243535" }}>
-        {children}
-      </div>
+      <div className="text-sm leading-relaxed text-white/80">{children}</div>
     </li>
   );
 }
@@ -446,18 +432,13 @@ function Li({
 function Faq({ q, a }: { q: string; a: string }) {
   return (
     <details
-      className="mt-3 rounded-2xl border bg-white px-4 py-3"
-      style={{ borderColor: "rgba(27,61,47,0.14)" }}
+      className="mt-3 rounded-2xl border bg-white/[0.03] px-4 py-3 backdrop-blur-md"
+      style={{ borderColor: "rgba(255,255,255,0.12)" }}
     >
-      <summary
-        className="cursor-pointer text-sm font-extrabold"
-        style={{ color: "#243535" }}
-      >
+      <summary className="cursor-pointer text-sm font-semibold text-white">
         {q}
       </summary>
-      <p className="mt-2 text-sm" style={{ color: "rgba(27,61,47,0.75)" }}>
-        {a}
-      </p>
+      <p className="mt-2 text-sm text-white/65">{a}</p>
     </details>
   );
 }
@@ -475,22 +456,16 @@ function FloatingCTA() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="w-[min(360px,calc(100vw-32px))] rounded-3xl border bg-white/85 p-3 shadow-[0_16px_50px_rgba(0,0,0,.12)] backdrop-blur-md"
-            style={{ borderColor: "rgba(27,61,47,0.16)" }}
+            className="w-[min(360px,calc(100vw-32px))] rounded-3xl border bg-[#0f0e17]/80 p-3 shadow-[0_16px_55px_rgba(0,0,0,.45)] backdrop-blur-md"
+            style={{ borderColor: "rgba(255,255,255,0.14)" }}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div
-                  className="flex items-center gap-2 text-sm font-black"
-                  style={{ color: "#243535" }}
-                >
-                  <Sparkles size={16} />
+                <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <Sparkles size={16} className="text-[#d4af37]" />
                   Compra hoy
                 </div>
-                <div
-                  className="mt-0.5 text-[12px] font-semibold"
-                  style={{ color: "rgba(27,61,47,0.70)" }}
-                >
+                <div className="mt-0.5 text-[12px] font-medium text-white/60">
                   Acceso inmediato · PDF + DOCX + plantillas
                 </div>
               </div>
@@ -498,31 +473,26 @@ function FloatingCTA() {
               <button
                 type="button"
                 onClick={() => setMinimized(true)}
-                className="rounded-xl border bg-white px-2 py-2"
-                style={{
-                  borderColor: "rgba(27,61,47,0.14)",
-                  color: "#243535",
-                }}
+                className="rounded-2xl border bg-white/[0.03] px-2 py-2 hover:bg-white/[0.06]"
+                style={{ borderColor: "rgba(255,255,255,0.14)" }}
                 aria-label="Minimizar"
                 title="Minimizar"
               >
-                <X size={16} />
+                <X size={16} className="text-white/80" />
               </button>
             </div>
 
             <div className="mt-3 flex items-center justify-between">
-              <div className="text-sm font-black" style={{ color: "#243535" }}>
-                MXN $49
-              </div>
+              <div className="text-sm font-semibold text-white">MXN $49</div>
               <span
-                className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-extrabold"
+                className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold"
                 style={{
-                  borderColor: "rgba(27,61,47,0.14)",
-                  background: "rgba(212,175,55,0.16)",
-                  color: "rgba(27,61,47,0.85)",
+                  borderColor: "rgba(212,175,55,0.18)",
+                  background: "rgba(212,175,55,0.10)",
+                  color: "rgba(255,255,255,0.78)",
                 }}
               >
-                <ShieldCheck size={14} />
+                <ShieldCheck size={14} className="text-[#d4af37]" />
                 Pago seguro
               </span>
             </div>
@@ -532,10 +502,8 @@ function FloatingCTA() {
                 href={MP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold text-white active:translate-y-[1px]"
-                style={{
-                  background: `linear-gradient(135deg, ${BRAND} 0%, rgba(27,61,47,0.85) 100%)`,
-                }}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold text-[#0f0e17] active:translate-y-[1px]"
+                style={{ background: GOLD }}
               >
                 <ShoppingCart size={18} />
                 Comprar
@@ -544,42 +512,31 @@ function FloatingCTA() {
                 href={WA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border bg-[#e8faf2] px-4 py-3 text-sm font-extrabold active:translate-y-[1px]"
-                style={{
-                  borderColor: "rgba(27,61,47,0.14)",
-                  color: BRAND,
-                }}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border bg-white/[0.03] px-4 py-3 text-sm font-semibold text-white/85 hover:bg-white/[0.07] active:translate-y-[1px]"
+                style={{ borderColor: "rgba(255,255,255,0.14)" }}
               >
                 <MessageCircle size={18} />
                 WhatsApp
               </a>
             </div>
 
-            <div
-              className="mt-2 text-[12px] font-semibold"
-              style={{ color: "rgba(27,61,47,0.70)" }}
-            >
+            <div className="mt-2 text-[12px] font-medium text-white/55">
               Mensajes 24/7 (respondemos lo antes posible).
             </div>
 
-            <div
-              className="mt-3 h-px w-full"
-              style={{ background: "rgba(27,61,47,0.10)" }}
-            />
+            <div className="mt-3 h-px w-full bg-white/10" />
 
             <a
               href={MP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-black active:translate-y-[1px]"
+              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold text-white/90 hover:bg-white/[0.06] active:translate-y-[1px]"
               style={{
-                background:
-                  "linear-gradient(90deg, rgba(212,175,55,0.22) 0%, rgba(212,175,55,0.10) 100%)",
-                color: "#243535",
-                border: "1px solid rgba(27,61,47,0.14)",
+                borderColor: "rgba(212,175,55,0.18)",
+                background: "rgba(212,175,55,0.10)",
               }}
             >
-              <Download size={18} />
+              <Download size={18} className="text-[#d4af37]" />
               Empieza hoy — descarga inmediata
             </a>
           </motion.div>
@@ -594,15 +551,14 @@ function FloatingCTA() {
             transition={{ duration: 0.22, ease: "easeOut" }}
             aria-label="Expandir CTA"
             title="Ver compra"
-            className="relative inline-flex h-14 w-14 items-center justify-center rounded-full border shadow-[0_16px_50px_rgba(0,0,0,.14)]"
+            className="relative inline-flex h-14 w-14 items-center justify-center rounded-full border shadow-[0_16px_55px_rgba(0,0,0,.45)]"
             style={{
-              borderColor: "rgba(27,61,47,0.18)",
-              background:
-                "linear-gradient(135deg, rgba(27,61,47,0.95) 0%, rgba(27,61,47,0.80) 100%)",
+              borderColor: "rgba(212,175,55,0.22)",
+              background: "rgba(15,14,23,0.85)",
               color: "white",
+              backdropFilter: "blur(12px)",
             }}
           >
-            {/* pulso suave */}
             <motion.span
               aria-hidden="true"
               className="absolute inset-0 rounded-full"
@@ -613,13 +569,9 @@ function FloatingCTA() {
                   "0 0 0 0 rgba(212,175,55,0.00)",
                 ],
               }}
-              transition={{
-                duration: 2.2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
             />
-            <Sparkles size={22} />
+            <Sparkles size={22} className="text-[#d4af37]" />
           </motion.button>
         )}
       </AnimatePresence>

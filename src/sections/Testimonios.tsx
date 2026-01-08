@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonios = [
-  'Nunca me había sentido tan escuchado. No sabía que podía hablar sin miedo.',
-  'Mi ansiedad bajó desde la primera sesión cannábica. Me sentí acompañada de verdad.',
+  'Un espacio seguro donde pude ordenar mi proceso.',
+  'Acompañamiento serio y sin improvisaciones.',
   'El círculo masculino me salvó. Por fin puedo hablar con otros hombres sin sentirme débil.',
-  'Pude pagar con trueque. Nadie me juzgó. Solo me ayudaron.',
+  'Claridad, contención y estructura.',
 ]
 
 // Fondos suaves pero oscuros, compatibles con light/dark

@@ -20,7 +20,8 @@ const DONORS = [
   { name: "Promptory AI", src: "/donors/promptory_icon.jpeg", href: "https://promptory-ai.vercel.app/" },
   { name: "La Caverna", src: "/donors/caverna-logo.png" },
   { name: "AG Solutions", src: "/donors/agsolutions_icon.jpg", href: "https://agsolutions.dev" },
-  { name: "Petunia Arte Digital", src: "/donors/petunia_logo.png"}
+  { name: "Petunia Arte Digital", src: "/donors/petunia_logo.png"},
+  { name: "PU Consulting", src: "/donors/pu-consulting-logo.png", href: "https://pu-consulting-site.vercel.app/" },
 ];
 
 const BRAND = "#1B3D2F";

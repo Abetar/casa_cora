@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Donor = {
   name: string;
@@ -11,16 +12,49 @@ type Donor = {
 type Props = {
   donors: Donor[];
   speedSeconds?: number;
+  size?: number;
+  gapPx?: number;
 };
 
-export default function DonadoresMarquee({ donors, speedSeconds = 22 }: Props) {
-  // ✅ SOLO duplicamos 1 vez (2 sets), para que -50% sea exacto
-  const loop = [...donors, ...donors];
+export default function DonadoresMarquee({
+  donors,
+  speedSeconds = 18,
+  size = 92,
+  gapPx = 34,
+}: Props) {
+  const groupRef = useRef<HTMLDivElement | null>(null);
+  const [groupWidth, setGroupWidth] = useState<number>(0);
+
+  // Medir el ancho real del grupo A (incluye gaps)
+  useEffect(() => {
+    if (!groupRef.current) return;
+
+    const el = groupRef.current;
+
+    const measure = () => {
+      // scrollWidth da el ancho real del contenido
+      setGroupWidth(el.scrollWidth);
+    };
+
+    measure();
+
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(el);
+
+    // Re-medimos cuando cargan imágenes (por si cambian tamaños)
+    const t = window.setTimeout(measure, 250);
+
+    return () => {
+      window.clearTimeout(t);
+      ro.disconnect();
+    };
+  }, [donors, size, gapPx]);
+
+  if (!donors?.length) return null;
 
   return (
     <section id="donadores" className="px-6 py-16">
       <div className="mx-auto max-w-7xl">
-        {/* Panel oscuro */}
         <div
           className="rounded-3xl border bg-[#0f0e17] p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
           style={{ borderColor: "rgba(212,175,55,0.18)" }}
@@ -34,21 +68,40 @@ export default function DonadoresMarquee({ donors, speedSeconds = 22 }: Props) {
             posible Casa Cora.
           </p>
 
-          {/* Carrusel */}
           <div className="relative mt-8 overflow-hidden">
-            {/* fades */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#0f0e17] to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#0f0e17] to-transparent" />
+            {/* Fades */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0f0e17] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0f0e17] to-transparent" />
 
+            {/* Track */}
             <div
-              className="cc-marquee"
-              style={{ ["--duration" as any]: `${speedSeconds}s` }}
-              aria-label="Carrusel de donadores"
+              className="cc-track"
+              style={
+                {
+                  ["--duration" as any]: `${speedSeconds}s`,
+                  ["--shift" as any]: `${groupWidth}px`, // ✅ movimiento exacto
+                } as React.CSSProperties
+              }
             >
-              {/* Track */}
-              <div className="cc-track">
-                {loop.map((d, i) => (
-                  <LogoCircle key={`${d.name}-${i}`} donor={d} />
+              {/* Grupo A (medido) */}
+              <div
+                ref={groupRef}
+                className="cc-group"
+                style={{ gap: `${gapPx}px`, paddingRight: `${gapPx}px` }}
+              >
+                {donors.map((d) => (
+                  <LogoItem key={`a-${d.name}`} donor={d} size={size} />
+                ))}
+              </div>
+
+              {/* Grupo B (duplicado) */}
+              <div
+                className="cc-group"
+                aria-hidden="true"
+                style={{ gap: `${gapPx}px`, paddingRight: `${gapPx}px` }}
+              >
+                {donors.map((d) => (
+                  <LogoItem key={`b-${d.name}`} donor={d} size={size} />
                 ))}
               </div>
             </div>
@@ -61,33 +114,29 @@ export default function DonadoresMarquee({ donors, speedSeconds = 22 }: Props) {
       </div>
 
       <style jsx>{`
-        .cc-marquee {
-          --gap: 28px;
-          --pad: 26px; /* ✅ evita que se corte el primer logo */
-          overflow: hidden;
-        }
-
         .cc-track {
           display: flex;
-          align-items: center;
-          gap: var(--gap);
           width: max-content;
-          padding-inline: var(--pad);
           animation: scroll var(--duration) linear infinite;
           will-change: transform;
         }
 
-        /* ✅ como hay 2 sets iguales, movemos exactamente 50% del track */
+        .cc-group {
+          display: flex;
+          align-items: flex-start;
+          flex-shrink: 0;
+        }
+
+        /* ✅ mueve exactamente el ancho del grupo A (sin huecos) */
         @keyframes scroll {
           from {
             transform: translateX(0);
           }
           to {
-            transform: translateX(-50%);
+            transform: translateX(calc(-1 * var(--shift)));
           }
         }
 
-        /* Accesibilidad: respeta reduce motion */
         @media (prefers-reduced-motion: reduce) {
           .cc-track {
             animation: none;
@@ -98,31 +147,36 @@ export default function DonadoresMarquee({ donors, speedSeconds = 22 }: Props) {
   );
 }
 
-function LogoCircle({ donor }: { donor: Donor }) {
-  const content = (
-    <div className="flex flex-col items-center gap-2 shrink-0">
-      {/* ✅ círculo real, imagen cubre todo */}
-      <div
-        className="relative h-24 w-24 md:h-28 md:w-28 rounded-full overflow-hidden"
-        style={{
-          boxShadow: "0 0 0 1px rgba(212,175,55,0.22)",
-        }}
-        aria-label={donor.name}
-        title={donor.name}
-      >
-        <Image
-          src={donor.src}
-          alt={donor.name}
-          fill
-          sizes="112px"
-          className="object-cover"
-        />
-      </div>
+function LogoItem({ donor, size }: { donor: Donor; size: number }) {
+  const itemWidth = Math.max(size + 36, 140);
 
-      {/* ✅ nombre compacto */}
-      <span className="text-xs md:text-sm text-white/75 text-center leading-tight max-w-[112px]">
-        {donor.name}
-      </span>
+  const content = (
+    <div className="shrink-0" style={{ width: itemWidth }} title={donor.name}>
+      <div className="flex flex-col items-center gap-2">
+        <div
+          className="relative overflow-hidden rounded-full"
+          style={{
+            width: size,
+            height: size,
+            boxShadow: "0 0 0 1px rgba(212,175,55,0.22)",
+          }}
+        >
+          <Image
+            src={donor.src}
+            alt={donor.name}
+            fill
+            sizes={`${size}px`}
+            className="object-cover"
+          />
+        </div>
+
+        <span
+          className="text-xs md:text-sm text-white/75 text-center leading-snug"
+          style={{ width: itemWidth, minHeight: 36 }}
+        >
+          {donor.name}
+        </span>
+      </div>
     </div>
   );
 

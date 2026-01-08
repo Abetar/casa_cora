@@ -1,46 +1,33 @@
 @import "tailwindcss";
 
-/* ===============================
-   Variables base de color
-   =============================== */
+/* Variables de tipografía */
 :root {
-  --background: #0f0e17;
-  --foreground: #ededed;
-}
-
-/* ===============================
-   Theme tokens (Tailwind v4)
-   =============================== */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* ⬇️ FUENTE GLOBAL */
   --font-sans: var(--font-montserrat);
-  --font-mono: var(--font-geist-mono);
 }
 
-/* ===============================
-   Dark mode (por compatibilidad)
-   =============================== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f0e17;
-    --foreground: #ededed;
-  }
+/* Base global */
+.cc-root {
+  font-family: var(--font-sans), system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-/* ===============================
-   Base global
-   =============================== */
-html,
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-montserrat),
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+/* ✅ Forzar headings (H1-H6) a Montserrat SIN tocar componentes */
+.cc-root h1,
+.cc-root h2,
+.cc-root h3,
+.cc-root h4,
+.cc-root h5,
+.cc-root h6 {
+  font-family: var(--font-montserrat), system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial;
+  letter-spacing: -0.01em;
+}
+
+/*
+  ✅ Importante:
+  Si en tu UI usabas "font-serif" para títulos, esto lo pisa globalmente.
+  Si quieres mantener serif SOLO en casos específicos, te doy una clase .cc-serif
+*/
+.cc-serif {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }

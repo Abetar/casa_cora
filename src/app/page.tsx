@@ -97,9 +97,10 @@ const Hero = () => {
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 px-6 w-full"
           >
             <Link
-              href="/#contacto"
+              href="https://wa.me/528132497377"
               className="w-full sm:w-auto rounded-full border border-[#d4af37]/50 bg-[#0f0e17]/60 px-6 py-3 text-sm sm:text-base text-[#d4af37] backdrop-blur-md transition hover:border-[#d4af37]/70 hover:bg-[#0f0e17]/70"
               aria-label="Agendar evaluación"
+              target="_blank"
             >
               Agendar evaluación
             </Link>

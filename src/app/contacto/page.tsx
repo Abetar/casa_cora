@@ -54,7 +54,7 @@ export default function ContactoPage() {
             title="Correo"
             desc="Para alianzas, prensa o temas administrativos."
             action="Enviar correo"
-            href="mailto:contacto@casacora.org"
+            href="mailto:casacoramty@gmail.com"
           />
 
           {/* Location */}
